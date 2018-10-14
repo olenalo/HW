@@ -51,8 +51,21 @@ public class KaratsubaAlgorithm {
         long x = scan.nextLong();
         long y = scan.nextLong();
 
-        System.out.printf("The product of %d and %d is %d\n", x, y, x*y);
-        System.out.printf("The product of %d and %d is %d (Karatsuba Algorithm)\n", x, y, multiplyByKaratsubaAlgorithm(x, y));
-        System.out.println(x*y == multiplyByKaratsubaAlgorithm(x, y));
+        long startTime1 = System.currentTimeMillis();
+        long result1 = x*y;
+        System.err.println(System.currentTimeMillis() - startTime1);
+
+        long startTime2 = System.currentTimeMillis();
+        long result2 = StandardMultiplication.multiplyByGradeSchoolApgorithm(x, y);
+        System.err.println(System.currentTimeMillis() - startTime2);
+
+        long startTime3 = System.currentTimeMillis();
+        long result3 = KaratsubaAlgorithm.multiplyByKaratsubaAlgorithm(x, y);
+        System.err.println(System.currentTimeMillis() - startTime3);
+
+        System.out.printf("The product of %d and %d is %d\n", x, y, result1);
+        System.out.printf("The product of %d and %d is %d (Standard Algorithm)\n", x, y, result2);
+        System.out.printf("The product of %d and %d is %d (Karatsuba Algorithm)\n", x, y, result3);
+        System.out.println(result1 == result3);
     }
 }
