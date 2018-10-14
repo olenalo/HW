@@ -19,23 +19,22 @@ public class KaratsubaAlgorithm {
             return x * y;
         }
 
-        int xPower = getSize(x);
-        int yPower = getSize(y);
-        int minSize = Math.min(xPower, yPower);
+        int xSize = getSize(x);
+        int ySize = getSize(y);
+        int maxSize = Math.max(xSize, ySize);
+        int size = maxSize / 2 + maxSize % 2;
+        long multiplier = (long) Math.pow(10, size);
 
-        long multiplier = (long) Math.pow(10, minSize - 1);
+        long xFirstPart = x / multiplier;
+        long xSecondPart = x - (xFirstPart * multiplier);
+        long yFirstPart = y / multiplier;
+        long ySecondPart = y - (yFirstPart * multiplier);
 
-        long xFirstPart = (x - x % multiplier) / multiplier;
-        long yFirstPart = (y - y % multiplier) / multiplier;
+        long z0 = multiplyByKaratsubaAlgorithm(xSecondPart, ySecondPart);
+        long z1 = multiplyByKaratsubaAlgorithm(xFirstPart + xSecondPart, yFirstPart + ySecondPart);
+        long z2 = multiplyByKaratsubaAlgorithm(xFirstPart, yFirstPart);
 
-        long xSecondPart = x % multiplier;
-        long ySecondPart = y % multiplier;
-
-        long z2 = xFirstPart * yFirstPart;
-        long z0 = xSecondPart * ySecondPart;
-        long z1 = (xFirstPart + xSecondPart) * (yFirstPart + ySecondPart) - z2 - z0;
-
-        return z2 * ((long) Math.pow(multiplier, 2)) +  z1 * multiplier + z0;
+        return z2 * ((long) Math.pow(10, size * 2)) +  (z1 - z2 - z0) * multiplier + z0;
     }
 
     public static void main(String[] args) {
@@ -51,6 +50,7 @@ public class KaratsubaAlgorithm {
         System.out.println("Enter two long numbers\n");
         long x = scan.nextLong();
         long y = scan.nextLong();
+
         System.out.printf("The product of %d and %d is %d\n", x, y, x*y);
         System.out.printf("The product of %d and %d is %d (Karatsuba Algorithm)\n", x, y, multiplyByKaratsubaAlgorithm(x, y));
         System.out.println(x*y == multiplyByKaratsubaAlgorithm(x, y));
