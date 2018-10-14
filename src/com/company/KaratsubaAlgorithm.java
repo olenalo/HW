@@ -1,8 +1,10 @@
 package com.company;
 
+import java.util.Scanner;
+
 public class KaratsubaAlgorithm {
 
-    public static int getBasePower(long number) {
+    public static int getSize(long number) {
         int basePower = 0;
         while (number != 0) {
             basePower++;
@@ -13,17 +15,15 @@ public class KaratsubaAlgorithm {
 
     public static long multiplyByKaratsubaAlgorithm(long x, long y) {
         // Ref.: https://en.wikipedia.org/wiki/Karatsuba_algorithm
-
-        int xPower = getBasePower(x);
-        int yPower = getBasePower(y);
-
-        int minPower = Math.min(xPower, yPower);
-
-        if (minPower < 2) {
+        if (x < 10 || y < 10) {
             return x * y;
         }
 
-        long multiplier = (long) Math.pow(10, minPower - 1);
+        int xPower = getSize(x);
+        int yPower = getSize(y);
+        int minSize = Math.min(xPower, yPower);
+
+        long multiplier = (long) Math.pow(10, minSize - 1);
 
         long xFirstPart = (x - x % multiplier) / multiplier;
         long yFirstPart = (y - y % multiplier) / multiplier;
@@ -41,15 +41,18 @@ public class KaratsubaAlgorithm {
     public static void main(String[] args) {
         // Cases:
         // x = 4,     y = 5
-        // x = 40,    y = 50
-        // x = 4000,  y = 5000
-        // x = 40000, y = 50000
-        // x = 40044, y = 50055
         // x = 40444, y = 50555 ---> 2044646420
         // x = 40444, y = 5555  ---> 224666420
+        /*
         long x = 4;
         long y = 5;
+        */
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter two long numbers\n");
+        long x = scan.nextLong();
+        long y = scan.nextLong();
         System.out.printf("The product of %d and %d is %d\n", x, y, x*y);
-        System.out.printf("The product of %d and %d is %d (by Karatsuba Algorithm)", x, y, multiplyByKaratsubaAlgorithm(x, y));
+        System.out.printf("The product of %d and %d is %d (Karatsuba Algorithm)\n", x, y, multiplyByKaratsubaAlgorithm(x, y));
+        System.out.println(x*y == multiplyByKaratsubaAlgorithm(x, y));
     }
 }
