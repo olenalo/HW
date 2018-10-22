@@ -4,13 +4,14 @@ public class AutomatedQAEngineer extends QAEngineer {
 
     public static String role = "Automated QA Engineer";
 
-    public AutomatedQAEngineer(String name,
+    public AutomatedQAEngineer(String id,
+                               String name,
                                String surname,
                                LocalDate careerStartDate,
                                String softSkillsLevel,
                                String englishLevel,
                                float remunerationValue) {
-        super(name, surname, careerStartDate, softSkillsLevel, englishLevel, remunerationValue);
+        super(id, name, surname, careerStartDate, softSkillsLevel, englishLevel, remunerationValue);
     }
 
     public String sayHi() {

@@ -2,8 +2,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Objects;
 
 public class Engineer {
+    private String id;
     private String name;
     private String surname;
     private String softSkillsLevel; // TODO: make it Enum
@@ -12,12 +14,14 @@ public class Engineer {
     private final LocalDate careerStartDate;
 
     public Engineer(
+            String id,
             String name,
             String surname,
             LocalDate careerStartDate,
             String softSkillsLevel,
             String englishLevel,
             float remunerationValueUSD) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.careerStartDate = careerStartDate; // Ever, i.e. not only related to the current squad
@@ -29,6 +33,34 @@ public class Engineer {
     @Override
     public String toString() {
         return this.name + " " + this.surname;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        // Excluded "soft" attributes like remuneration or English level
+        // (which also tend to change more often)
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Engineer engineer = (Engineer) o;
+        return Objects.equals(this.id, engineer.id) &&
+                Objects.equals(this.name, engineer.name) &&
+                Objects.equals(this.surname, engineer.surname) &&
+                Objects.equals(this.careerStartDate, engineer.careerStartDate);
+    }
+
+    @Override
+    public int hashCode() {
+        // Excluded "soft" attributes like remuneration or English level
+        // (which also tend to change more often)
+        return Objects.hash(this.id, this.name, this.surname, this.careerStartDate);
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -94,6 +126,7 @@ public class Engineer {
     }
 
     public String getRoleLevel() {
+        // TODO: make it Enum
         String level = "Junior";
         int experienceMonths = this.getExperienceMonths();
         if (experienceMonths >= 24 && experienceMonths < 96) {
@@ -106,10 +139,10 @@ public class Engineer {
 
 
     public void assignTask(Task task, Engineer engineer) {
-
+        task.setAssignee(engineer);
     }
 
-    public void provideTaskETA(Task task, int estimation) {
-
+    public void provideTaskETA(Task task, float estimationHours) {
+        task.addEstimationHours(estimationHours);
     }
 }

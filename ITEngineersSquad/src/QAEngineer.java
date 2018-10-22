@@ -5,13 +5,14 @@ public class QAEngineer extends Engineer {
     public static String role = "QA Engineer";
 
     public QAEngineer(
+            String id,
             String name,
             String surname,
             LocalDate careerStartDate,
             String softSkillsLevel,
             String englishLevel,
             float remunerationValue) {
-        super(name, surname, careerStartDate, softSkillsLevel, englishLevel, remunerationValue);
+        super(id, name, surname, careerStartDate, softSkillsLevel, englishLevel, remunerationValue);
     }
 
     @Override
