@@ -7,6 +7,7 @@ public class SoftwareDeveloper extends SoftwareEngineer {
     private Boolean leadershipAmbitions;
 
     public SoftwareDeveloper(
+            String id,
             String name,
             String surname,
             LocalDate careerStartDate,
@@ -15,7 +16,7 @@ public class SoftwareDeveloper extends SoftwareEngineer {
             float remunerationValue,
             String selfEsteemLevel,
             boolean leadershipAmbitions) {
-        super(name, surname, careerStartDate, softSkillsLevel, englishLevel, remunerationValue, selfEsteemLevel);
+        super(id, name, surname, careerStartDate, softSkillsLevel, englishLevel, remunerationValue, selfEsteemLevel);
         this.leadershipAmbitions = leadershipAmbitions;
     }
 
@@ -33,11 +34,26 @@ public class SoftwareDeveloper extends SoftwareEngineer {
     }
 
     public String sayHi() {
-        return super.sayHi() + ", and I'm simply called a developer here.";
+        String helloMessage = super.sayHi() + ", and I'm simply called a developer here. ";
+        if (this.getLeadershipAmbitions()) {
+            helloMessage += "I want to become a Technical Lead one day";
+        } else {
+            helloMessage += "Ugh, don't want to manage people... Ever! Programming is my only passion!";
+        }
+        return helloMessage;
     }
 
     public String getRoleLevel() {
         return super.getRoleLevel() + " " + role;
+    }
+
+    public void provideTaskETA(Task task, float estimationHours) {
+        if (this.getLeadershipAmbitions() && task.getReqsQuality().equals("Low")) {
+            System.out.println("I'm gonna be a technical lead, and I should talk to the customer myself, " +
+                    "I need this experience!");
+            task.addEstimationHours(estimationHours);
+        }
+        super.provideTaskETA(task, estimationHours);
     }
 
 }

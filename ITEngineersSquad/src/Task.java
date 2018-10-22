@@ -1,18 +1,26 @@
-import java.util.HashMap;
-
 public class Task {
     private String title;
     private String description;
-    private String status; // TODO consider removing, probably unnecessary here
-    private String reqsQuality; // Requirements quality
+    private String status; // TODO consider removing, probably unnecessary here. Or make it Enum and go further.
+    private String reqsQuality; // Requirements quality TODO: make it Enum
     private Engineer assignee;
-    private HashMap estimations; // Estimations per assignees (engineers)
+    private float totalEstimationHours; // TODO: memorize estimations providers
 
     public Task(String title, String description, String status, String reqsQuality) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.reqsQuality = reqsQuality;
+        this.totalEstimationHours = 0;
+    }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
+
+    public void setTotalEstimationHours(float totalEstimationHours) {
+        this.totalEstimationHours = totalEstimationHours;
     }
 
     public void setTitle(String title) {
@@ -35,10 +43,6 @@ public class Task {
         this.assignee = assignee;
     }
 
-    public void setEstimations(HashMap estimations) {
-        this.estimations = estimations;
-    }
-
     public String getTitle() {
         return this.title;
     }
@@ -59,12 +63,11 @@ public class Task {
         return this.assignee;
     }
 
-    public HashMap getEstimations() {
-        return this.estimations;
+    public void addEstimationHours(float estimationHours) {
+        this.totalEstimationHours += estimationHours;
     }
 
-    public int getTotalEstimation(){
-        // TODO: implement
-        return 0;
+    public float getTotalEstimationHours(){
+        return this.totalEstimationHours;
     }
 }

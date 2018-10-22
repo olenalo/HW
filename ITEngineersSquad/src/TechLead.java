@@ -4,6 +4,7 @@ public class TechLead extends SoftwareEngineer implements Manager {
     public static String role = "Technical Lead";
 
     public TechLead(
+            String id,
             String name,
             String surname,
             LocalDate careerStartDate,
@@ -11,7 +12,7 @@ public class TechLead extends SoftwareEngineer implements Manager {
             String englishLevel,
             float remunerationValue,
             String selfEsteemLevel) {
-        super(name, surname, careerStartDate, softSkillsLevel, englishLevel, remunerationValue, selfEsteemLevel);
+        super(id, name, surname, careerStartDate, softSkillsLevel, englishLevel, remunerationValue, selfEsteemLevel);
     }
 
     @Override
@@ -29,7 +30,13 @@ public class TechLead extends SoftwareEngineer implements Manager {
 
     @Override
     public Boolean approveTaskETA(Task task) {
-        // TODO: implement
+        if (task.getTotalEstimationHours() > 0) {
+            System.out.printf("OK, I approve the task '%s' ETA which is %f hours",
+                    task, task.getTotalEstimationHours());
+            return true;
+        }
+        System.out.printf("I do not approve the task's '%s' ETA which is %f hours, notifying the assignee %s...",
+                task, task.getTotalEstimationHours(), task.getAssignee());
         return false;
     }
 

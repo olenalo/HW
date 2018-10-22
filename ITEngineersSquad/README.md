@@ -10,4 +10,4 @@ Only classes with inheritance relations are depicted on the schema below.
 
 ## UML: ClassDiagram
 
-Coming soon...
+![Class Diagram](media/ITEngineersSquad_ClassDiagram.jpg)
