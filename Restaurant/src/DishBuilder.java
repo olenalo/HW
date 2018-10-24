@@ -18,32 +18,37 @@ public class DishBuilder {
         }
     }
 
-    public DishBuilder environment(String environment) {
+    public DishBuilder environment(String environment, Order order, Cook cook) {
         System.out.println(environment);
+        order.addResponsibleCook(cook);
         this.environment = environment;
         return this;
     }
 
-    public DishBuilder ingredients(String ingredients) {
+    public DishBuilder ingredients(String ingredients, Order order, Cook cook) {
         System.out.println(ingredients);
+        order.addResponsibleCook(cook);
         this.ingredients = ingredients;
         return this;
     }
 
-    public DishBuilder technology(String technology) {
+    public DishBuilder technology(String technology, Order order, Cook cook) {
         System.out.println(technology);
+        order.addResponsibleCook(cook);
         this.technology = technology;
         return this;
     }
 
-    public DishBuilder utensil(String utensil) {
+    public DishBuilder utensil(String utensil, Order order, DishWasher dishwasher) {
         System.out.println(utensil);
+        order.setResponsibleDishwasher(dishwasher);
         this.utensil = utensil;
         return this;
     }
 
-    public DishBuilder design(String design) {
+    public DishBuilder design(String design, Order order, Cook cook) {
         System.out.println(design);
+        order.addResponsibleCook(cook);
         this.design = design;
         return this;
     }

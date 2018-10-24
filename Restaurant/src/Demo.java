@@ -15,12 +15,10 @@ public class Demo {
         System.out.println("Please select the dish (enter the number): ");
         // TODO: make it possible for multiple items to be chosen
         String orderedDishIndex = sc.next();
-        // TODO: check that max number of dishes per order isn't exceeded
         Order order = new Order();
-        int i = 0;
         for (Menu dish: Menu.values()) {
             if (orderedDishIndex.equals(dish.dishDescriptors[0])){
-                order.dishes[i] = new String[]{dish.dishDescriptors[0], dish.dishDescriptors[1], dish.dishDescriptors[2]};
+                order.getDishes().add(new String[]{dish.dishDescriptors[0], dish.dishDescriptors[1], dish.dishDescriptors[2]});
                 System.out.printf("You ordered '%s', thank you!\n", dish.dishDescriptors[1]);
             }
         }
@@ -56,15 +54,24 @@ public class Demo {
         DishBuilder dishBuilder = dishFactory.cook(orderedDishIndex);
 
         dishBuilder
-                .environment(DishPreparationStep.valueOf("ENVIRONMENT").description)   // TODO made by cook1
-                .ingredients(DishPreparationStep.valueOf("INGREDIENTS").description)   // TODO made by cook1
-                .technology(DishPreparationStep.valueOf("TECHNOLOGY").description)     // TODO made by cook2
-                .utensil(DishPreparationStep.valueOf("UTENSIL").description)           // TODO made by dishwasher
-                .design(DishPreparationStep.valueOf("DESIGN").description);            // TODO made by cook2
+                .environment(DishPreparationStep.valueOf("ENVIRONMENT").description, order, cook1)
+                .ingredients(DishPreparationStep.valueOf("INGREDIENTS").description, order, cook1)
+                .technology(DishPreparationStep.valueOf("TECHNOLOGY").description, order, cook2)
+                .utensil(DishPreparationStep.valueOf("UTENSIL").description, order, dishwasher)
+                .design(DishPreparationStep.valueOf("DESIGN").description, order, cook2);
 
         System.out.println("--------------");
         Dish dish = dishBuilder.createDish();
         waiter.serveDish(order, dish);
+        System.out.println("--------------");
+
+        System.out.println("Information on the order: ");
+        for (Cook cook: order.getResponsibleCooks()) {
+            System.out.println("Responsible cook: " + cook);
+        }
+        System.out.println("Responsible dishwasher: " + order.getResponsibleDishwasher());
+        System.out.println("Responsible waiter: " + order.getResponsibleWaiter());
+
 
     }
 

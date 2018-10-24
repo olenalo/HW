@@ -1,16 +1,16 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Order {
 
-    public static int MAX_DISHES_NUMBER = 10;
-    public static int ORDERED_DISH_DESCRIPTORS_NUMBER = 3; // index, title, and type
-
-    public String[][] dishes;
-
+    private List<String[]> dishes;
+    private List<Cook> responsibleCooks;
     private Waiter responsibleWaiter;
     private DishWasher responsibleDishwasher;
-    private Cook responsibleCook;
 
     public Order() {
-        this.dishes = new String[MAX_DISHES_NUMBER][ORDERED_DISH_DESCRIPTORS_NUMBER];
+        this.dishes = new ArrayList<>();
+        this.responsibleCooks = new ArrayList<>();
     }
 
     public Waiter getResponsibleWaiter() {
@@ -29,11 +29,17 @@ public class Order {
         this.responsibleDishwasher = responsibleDishwasher;
     }
 
-    public Cook getResponsibleCook() {
-        return this.responsibleCook;
+    public List<String[]> getDishes() {
+        return dishes;
     }
 
-    public void setResponsibleCook(Cook responsibleCook) {
-        this.responsibleCook = responsibleCook;
+    public List<Cook> getResponsibleCooks() {
+        return responsibleCooks;
+    }
+
+    public void addResponsibleCook(Cook cook) {
+        if (!this.responsibleCooks.contains(cook)) {
+            this.responsibleCooks.add(cook);
+        }
     }
 }
