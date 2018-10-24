@@ -1,12 +1,26 @@
-public class Dessert implements Dish {
+public class Dessert extends Dish implements DishInterface {
 
-    public Dessert() {
-        System.out.println("Cooking the dessert!");
+    private final static String type = "Dessert";
+
+    @Override
+    public String toString() {
+        return type;
+    }
+
+    public Dessert(String id,
+                String title,
+                String recipe,
+                String environment,
+                String ingredients,
+                String utensil,
+                String design) {
+        super(id, title, recipe, environment, ingredients, utensil, design);
+        System.out.printf("Cooking the %s!\n", this);
     }
 
     @Override
     public void serve() {
-        System.out.println("Serving the dessert!");
+        System.out.printf("Serving the %s!\n", this);
     }
 
 }
