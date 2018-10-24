@@ -10,7 +10,12 @@ public class DishBuilder {
 
     public DishBuilder(String id) {
         this.id = id;
-        this.title = "title"; // TODO: should be taken from `Reference`
+        this.title = "Dish";
+        for (Menu dish: Menu.values()) {
+            if (id.equals(dish.dishDescriptors[0])){
+                this.title = dish.dishDescriptors[1];
+            }
+        }
     }
 
     public DishBuilder environment(String environment) {

@@ -4,7 +4,7 @@ public class Dessert extends Dish implements DishInterface {
 
     @Override
     public String toString() {
-        return type;
+        return type + ", " + this.title;
     }
 
     public Dessert(String id,

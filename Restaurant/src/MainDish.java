@@ -4,7 +4,7 @@ public class MainDish extends Dish implements DishInterface {
 
     @Override
     public String toString() {
-        return type;
+        return type + ", " + this.title;
     }
 
     public MainDish(String id,
