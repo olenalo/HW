@@ -1,5 +1,5 @@
 public abstract class DishFactory {
 
-    public abstract Dish cook();
+    public abstract DishBuilder cook(String id);
 
 }

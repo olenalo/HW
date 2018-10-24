@@ -1,9 +1,9 @@
 public class DessertFactory extends DishFactory {
 
     @Override
-    public Dish cook() {
+    public DessertBuilder cook(String id) {
 
-        return new Dessert();
+        return new DessertBuilder(id);
 
     }
 }

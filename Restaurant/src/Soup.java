@@ -1,12 +1,26 @@
-public class Soup implements Dish {
+public class Soup extends Dish implements DishInterface {
 
-    public Soup() {
-        System.out.println("Cooking the soup!");
+    private final static String type = "Soup";
+
+    @Override
+    public String toString() {
+        return type;
+    }
+
+    public Soup(String id,
+                String title,
+                String recipe,
+                String environment,
+                String ingredients,
+                String utensil,
+                String design) {
+        super(id, title, recipe, environment, ingredients, utensil, design);
+        System.out.printf("Cooking the %s!\n", this);
     }
 
     @Override
     public void serve() {
-        System.out.println("Serving the soup!");
+        System.out.printf("Serving the %s!\n", this);
     }
 
 }

@@ -1,9 +1,9 @@
 public class MainDishFactory extends DishFactory {
 
     @Override
-    public Dish cook() {
+    public MainDishBuilder cook(String id) {
 
-        return new MainDish();
+        return new MainDishBuilder(id);
 
     }
 }

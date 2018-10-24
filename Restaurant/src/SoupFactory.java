@@ -1,9 +1,9 @@
 public class SoupFactory extends DishFactory {
 
     @Override
-    public Dish cook() {
+    public SoupBuilder cook(String id) {
 
-        return new Soup();
+        return new SoupBuilder(id);
 
     }
 }
