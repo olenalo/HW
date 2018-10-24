@@ -4,7 +4,7 @@ public class Soup extends Dish implements DishInterface {
 
     @Override
     public String toString() {
-        return type;
+        return type + ", " + this.title;
     }
 
     public Soup(String id,
