@@ -7,7 +7,7 @@ public class Demo {
     public static void main(String[] args) {
         System.out.println("The menu:");
         for (Menu dish: Menu.values()) {
-            System.out.printf("Dish #%s: %s\n", dish.dishDescriptors[1], dish.dishDescriptors[2]);
+            System.out.printf("Dish #%s: %s\n", dish.dishDescriptors[0], dish.dishDescriptors[1]);
         }
         System.out.println("--------------------------------");
 
