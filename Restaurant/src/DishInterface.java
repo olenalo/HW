@@ -1,5 +1,5 @@
 public interface DishInterface {
 
-    public void serve();
+    public void serve(Waiter waiter);
 
 }

@@ -1,4 +1,4 @@
-public class Dish {
+public class Dish implements DishInterface {
 
     public String id;
     public String title;
@@ -25,5 +25,9 @@ public class Dish {
         this.design = design;
     }
 
+    @Override
+    public void serve(Waiter waiter) {
+        System.out.printf(waiter + ", is serving the %s!\n", this);
+    }
 
 }
