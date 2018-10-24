@@ -1,9 +1,8 @@
-package com.company;
-
 import java.util.Scanner;
 
-public class KaratsubaAlgorithm {
+public class StandardMultiplication {
 
+    // TODO: move to utils (DRY)
     public static int getSize(long number) {
         int basePower = 0;
         while (number != 0) {
@@ -13,43 +12,41 @@ public class KaratsubaAlgorithm {
         return basePower;
     }
 
-    public static long multiplyByKaratsubaAlgorithm(long x, long y) {
-        // Ref.: https://en.wikipedia.org/wiki/Karatsuba_algorithm
+    public static long multiplyByGradeSchoolApgorithm(long x, long y) {
+        // Long multiplication, or Grade School multiplication, or Standard Multiplication
+        // Ref.: https://en.wikipedia.org/wiki/Multiplication_algorithm
         if (x < 10 || y < 10) {
             return x * y;
         }
+        long minValue = Math.min(x, y);
+        long maxValue = Math.max(x, y);
 
         int xSize = getSize(x);
         int ySize = getSize(y);
-        int maxSize = Math.max(xSize, ySize);
-        int size = maxSize / 2 + maxSize % 2;
-        long multiplier = (long) Math.pow(10, size);
+        int minSize = Math.min(xSize, ySize);
 
-        long xFirstPart = x / multiplier;
-        long xSecondPart = x - (xFirstPart * multiplier);
-        long yFirstPart = y / multiplier;
-        long ySecondPart = y - (yFirstPart * multiplier);
+        // TODO: this isn't really a Grade School; change it
+        long result = 0;
+        for (int i = 1; i <= minSize; i++) {
+            long multiplier = (long) Math.pow(10, i);
+            long remainder = ((minValue % multiplier) / (multiplier/10)) * (multiplier/10);
+            result += maxValue * remainder;
+        }
 
-        long z0 = multiplyByKaratsubaAlgorithm(xSecondPart, ySecondPart);
-        long z1 = multiplyByKaratsubaAlgorithm(xFirstPart + xSecondPart, yFirstPart + ySecondPart);
-        long z2 = multiplyByKaratsubaAlgorithm(xFirstPart, yFirstPart);
-
-        return z2 * ((long) Math.pow(10, size * 2)) +  (z1 - z2 - z0) * multiplier + z0;
+        return result;
     }
 
     public static void main(String[] args) {
-        // Cases:
-        // x = 4,     y = 5
-        // x = 40444, y = 50555 ---> 2044646420
-        // x = 40444, y = 5555  ---> 224666420
         /*
-        long x = 4;
-        long y = 5;
+        long x = 23958233;
+        long y = 5830;
         */
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter two long numbers\n");
         long x = scan.nextLong();
         long y = scan.nextLong();
+
+        // TODO: change to BigInteger so that we can compare running time (big enough numbers should be)
 
         long startTime1 = System.currentTimeMillis();
         long result1 = x*y;
@@ -66,6 +63,7 @@ public class KaratsubaAlgorithm {
         System.out.printf("The product of %d and %d is %d\n", x, y, result1);
         System.out.printf("The product of %d and %d is %d (Standard Algorithm)\n", x, y, result2);
         System.out.printf("The product of %d and %d is %d (Karatsuba Algorithm)\n", x, y, result3);
-        System.out.println(result1 == result3);
+        System.out.println(result1 == result2);
     }
+
 }

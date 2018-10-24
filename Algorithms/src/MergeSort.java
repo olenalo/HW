@@ -1,5 +1,3 @@
-package com.company;
-
 /**
  * HW4.2 by OPersian.
  *
