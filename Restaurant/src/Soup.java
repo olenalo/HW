@@ -1,4 +1,4 @@
-public class Soup extends Dish implements DishInterface {
+public class Soup extends Dish {
 
     private final static String type = "Soup";
 
@@ -16,11 +16,6 @@ public class Soup extends Dish implements DishInterface {
                 String design) {
         super(id, title, recipe, environment, ingredients, utensil, design);
         System.out.printf("Cooking the %s!\n", this);
-    }
-
-    @Override
-    public void serve() {
-        System.out.printf("Serving the %s!\n", this);
     }
 
 }
