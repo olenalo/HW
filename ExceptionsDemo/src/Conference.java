@@ -65,34 +65,21 @@ public class Conference {
         return this.price + " " + currency;
     }
 
-    public static Boolean checkArrayContains(String[] array, String value) {
-        for (String v: array) {
-            // FIXME: NullPointerException could occur here
-            // because `v` can be null, after being assigned during array initialization
-            if (v.equals(value)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public String[] pickFreeTicketsWinners(String[] candidates, int winnersNumber) throws IllegalArgumentException {
         if (winnersNumber > candidates.length) {
             throw new IllegalArgumentException("Winners number should be smaller than candidates'");
         }
         String[] winners = new String[winnersNumber];
         Random random = new Random();
-        for (int i = 0; i < candidates.length; i++) {
+        int winnersCount = 1;
+        while (!ArrayCustomUtils.checkAllNotNull(winners)) {
             int n = random.nextInt(candidates.length);
             // Exclude a candidate who already won
-            if (!checkArrayContains(winners, candidates[n])) {
-                // FIXME: ArrayIndexOutOfBoundsException occurs here
-                // because we continue iterating even when `i` is bigger than `winner`'s length
-                // FIXME: also, prevent possible NullPointerException (no value should be `null`)
-                winners[i] = candidates[n];
+            if (!ArrayCustomUtils.checkArrayContains(winners, candidates[n])) {
+                winners[winnersCount - 1] = candidates[n];
+                winnersCount++;
             }
         }
-
         return winners;
     }
 
