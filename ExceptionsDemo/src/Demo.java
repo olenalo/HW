@@ -1,19 +1,21 @@
 public class Demo {
 
     public static String makeTechRiddle(Conference conference) {
-        // FIXME: This is where ClassCastException could be thrown
-        // if for example `PythonConference` object is passed;
-        // Downcasting would also provoke the exception
-        JavaConference javaConference = (JavaConference) conference;
-        return javaConference.getTechPuzzle();
+        String puzzle = null;
+        if (conference instanceof JavaConference) {
+            JavaConference javaConference = (JavaConference) conference;
+            puzzle = javaConference.getTechPuzzle();
+        }
+        return puzzle;
     }
 
     public static String showExhibitionArea(Conference conference) {
-        // FIXME: This is where ClassCastException could be thrown
-        // if for example `JavaConference` object is passed;
-        // Downcasting would also provoke the exception
-        DataScienceConference dsConference = (DataScienceConference) conference;
-        return dsConference.getExhibitionArea();
+        String expo = null;
+        if (conference instanceof DataScienceConference) {
+            DataScienceConference dsConference = (DataScienceConference) conference;
+            expo = dsConference.getExhibitionArea();
+        }
+        return expo;
     }
 
     public static void main(String[] args) {
@@ -41,25 +43,30 @@ public class Demo {
         String[] giveAwayContestCandidates = new String[] {"Vova", "OPersian", "Lola", "Linda", "Max", "Peter"};
 
         // Update the price (organizers decided to make JavaCon and PyCon prices equal taking the JavaCon price)
-        // FIXME: NumberFormatException (cannot cast string of such format to numeric type)
-        pyCon.setPrice(Double.valueOf(javaCon.showPrice()));
+        pyCon.setPrice(javaCon.getPrice());
 
         for (Conference conference: conferences) {
             System.out.println(conference);
-            System.out.println("The talks are as follows: ");
 
-            // FIXME: NullPointerException could occur here and below
-            // if a conference has no `talks`
-            for (String talk: conference.getTalks()) {
-                System.out.println(talk);
+            if (conference.getTalks() != null) {
+                System.out.println("The talks are as follows: ");
+                for (String talk : conference.getTalks()) {
+                    System.out.println(talk);
+                }
             }
-            System.out.println("The workshops are as follows: ");
-            for (String workshop: conference.getWorkshops()) {
-                System.out.println(workshop);
+            if (conference.getWorkshops() != null) {
+                System.out.println("The workshops are as follows: ");
+                for (String workshop : conference.getWorkshops()) {
+                    System.out.println(workshop);
+                }
             }
 
-            System.out.println(makeTechRiddle(conference));
-            System.out.println(showExhibitionArea(conference));
+            if (makeTechRiddle(conference) != null) {
+                System.out.println("Solve the riddle: " + makeTechRiddle(conference));
+            }
+            if (showExhibitionArea(conference) != null) {
+                System.out.println("Visit the exhibition: " + showExhibitionArea(conference));
+            }
 
             System.out.println("The winners of free tickets are: ");
             for (String winner: conference.pickFreeTicketsWinners(giveAwayContestCandidates, 2)) {
