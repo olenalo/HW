@@ -2,11 +2,10 @@ public class JavaConference extends Conference {
 
     // Inspired by https://jeeconf.com/
 
-    // e.g. https://pic.twitter.com/IHev4MuW0l
-    private String techPuzzle;  // TODO could be numerous
+    private String techPuzzle;
 
-    public JavaConference(String title, String organizer, String techPuzzle) {
-        super(title, organizer);
+    public JavaConference(String title, String organizer, String techPuzzle, double price) {
+        super(title, organizer, price);
         this.techPuzzle = techPuzzle;
     }
 

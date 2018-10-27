@@ -5,8 +5,8 @@ public class DataScienceConference extends Conference {
     // Exhibition area with innovative developments
     private String exhibitionArea;
 
-    public DataScienceConference(String title, String organizer, String exhibitionArea) {
-        super(title, organizer);
+    public DataScienceConference(String title, String organizer, String exhibitionArea, double price) {
+        super(title, organizer, price);
         this.exhibitionArea = exhibitionArea;
     }
 
