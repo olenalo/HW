@@ -32,23 +32,13 @@ public class FileManipulationExercise {
         String absolutePath = fileResource.absolutePath;
         StringBuilder content = new StringBuilder();
         String contentString;
-        BufferedReader reader = null;
-        try {
-            reader  = new BufferedReader(new FileReader(absolutePath));
+        try(BufferedReader reader  = new BufferedReader(new FileReader(absolutePath))) {
             while ((contentString = reader.readLine()) != null)
                 content.append(contentString);
             // FIXME: make it work
             content.append(System.getProperty("line.separator"));
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return content.toString();
 
@@ -57,24 +47,14 @@ public class FileManipulationExercise {
     public static void write(String content, String filename) {
         FileResource fileResource = new FileResource(filename);
         String fileAbsolutePath = fileResource.absolutePath;
-        BufferedWriter writer = null;
-        try {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) { // fileAbsolutePath
             // FIXME: Avoid writing to a root dir, write to the module dir
             // Consider Android context: https://stackoverflow.com/a/20891114
-            // writer = new BufferedWriter(new FileWriter(fileAbsolutePath, true));
-            writer = new BufferedWriter(new FileWriter(filename, true));
             writer.newLine();
+            // writer.write(System.getProperty("line.separator"));
             writer.write(content);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -85,7 +65,6 @@ public class FileManipulationExercise {
         String filename1 = scanner.next();
         String filename2 = scanner.next();
         String filename3 = scanner.next();
-
         /*
         String filename1 = "file_1.txt";
         String filename2 = "file_2.txt";
