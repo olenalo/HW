@@ -3,6 +3,7 @@ import java.util.List;
 
 public class Order {
 
+    public static final int MAX_DISHES_NUMBER = 5;
     private List<String[]> dishes;
     private List<Cook> responsibleCooks;
     private Waiter responsibleWaiter;
@@ -35,7 +36,7 @@ public class Order {
 
     public void addDish(String dishIndex) {
         for (Menu dish: Menu.values()) {
-            if (dishIndex.equals(dish.dishDescriptors[0])){
+            if (dishIndex.equals(dish.dishDescriptors[0]) && this.dishes.size() <= MAX_DISHES_NUMBER){
                 this.dishes.add(new String[]{dish.dishDescriptors[0], dish.dishDescriptors[1], dish.dishDescriptors[2]});
                 System.out.printf("You ordered '%s', thank you!\n", dish.dishDescriptors[1]);
             }
