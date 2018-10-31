@@ -41,7 +41,7 @@ public class DishBuilder {
 
     public DishBuilder utensil(String utensil, Order order, DishWasher dishwasher) {
         System.out.println(utensil);
-        order.setResponsibleDishwasher(dishwasher);
+        order.addResponsibleDishwasher(dishwasher);
         this.utensil = utensil;
         return this;
     }

@@ -43,6 +43,7 @@ public class Demo {
         System.out.println("--------------------------------");
 
         if (order.getDishes() != null) {
+            // TODO: move it all to Order
             for (String[] orderedMenuItem : order.getDishes()) {
                 System.out.println("Working on " + orderedMenuItem[1]);
                 if (orderedMenuItem[2] != null) {
@@ -81,11 +82,15 @@ public class Demo {
         }
 
         System.out.println("Information on the order: ");
-        for (Cook cook : order.getResponsibleCooks()) {
+        for (Cook cook: order.getResponsibleCooks()) {
             System.out.println("Responsible cook: " + cook);
         }
-        System.out.println("Responsible dishwasher: " + order.getResponsibleDishwasher());
-        System.out.println("Responsible waiter: " + order.getResponsibleWaiter());
+        for (DishWasher dwasher: order.getResponsibleDishwashers()) {
+            System.out.println("Responsible dishwasher: " + dwasher);
+        }
+        for (Waiter wter: order.getResponsibleWaiters()) {
+            System.out.println("Responsible waiter: " + wter);
+        }
 
 
     }
