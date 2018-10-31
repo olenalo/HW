@@ -33,49 +33,44 @@ public class Demo {
 
         waiter.takeOrder(order);
 
-        // FIXME: define concrete factories by dish type using `Order`
-        /*
-        for (String[] orderedMenuItem: order.dishes) {
-            if (orderedMenuItem != null) {
-                System.out.println("--------------------------------");
-                // ...
+        for (String[] orderedMenuItem: order.getDishes()) {
+            if (orderedMenuItem[2] != null) {
+                switch (orderedMenuItem[2]) {
+                    case "Soup":
+                        dishFactory = new SoupFactory();
+                        break;
+                    case "MainDish":
+                        dishFactory = new MainDishFactory();
+                        break;
+                    case "Dessert":
+                        dishFactory = new DessertFactory();
+                        break;
+                }
             }
-        }*/
-
-        switch (orderedDishIndex) {
-            case "1":
-            case "2":
-                dishFactory = new SoupFactory();
-                break;
-            case "3":
-                dishFactory = new MainDishFactory();
-                break;
-            case "4":
-                dishFactory = new DessertFactory();
-                break;
         }
 
+        if (dishFactory != null) {
+            DishBuilder dishBuilder = dishFactory.cook(orderedDishIndex);
 
-        DishBuilder dishBuilder = dishFactory.cook(orderedDishIndex);
+            dishBuilder
+                    .environment(DishPreparationStep.valueOf("ENVIRONMENT").description, order, cook1)
+                    .ingredients(DishPreparationStep.valueOf("INGREDIENTS").description, order, cook1)
+                    .technology(DishPreparationStep.valueOf("TECHNOLOGY").description, order, cook2)
+                    .utensil(DishPreparationStep.valueOf("UTENSIL").description, order, dishwasher)
+                    .design(DishPreparationStep.valueOf("DESIGN").description, order, cook2);
 
-        dishBuilder
-                .environment(DishPreparationStep.valueOf("ENVIRONMENT").description, order, cook1)
-                .ingredients(DishPreparationStep.valueOf("INGREDIENTS").description, order, cook1)
-                .technology(DishPreparationStep.valueOf("TECHNOLOGY").description, order, cook2)
-                .utensil(DishPreparationStep.valueOf("UTENSIL").description, order, dishwasher)
-                .design(DishPreparationStep.valueOf("DESIGN").description, order, cook2);
+            System.out.println("--------------");
+            Dish dish = dishBuilder.createDish();
+            waiter.serveDish(order, dish);
+            System.out.println("--------------");
 
-        System.out.println("--------------");
-        Dish dish = dishBuilder.createDish();
-        waiter.serveDish(order, dish);
-        System.out.println("--------------");
-
-        System.out.println("Information on the order: ");
-        for (Cook cook: order.getResponsibleCooks()) {
-            System.out.println("Responsible cook: " + cook);
+            System.out.println("Information on the order: ");
+            for (Cook cook : order.getResponsibleCooks()) {
+                System.out.println("Responsible cook: " + cook);
+            }
+            System.out.println("Responsible dishwasher: " + order.getResponsibleDishwasher());
+            System.out.println("Responsible waiter: " + order.getResponsibleWaiter());
         }
-        System.out.println("Responsible dishwasher: " + order.getResponsibleDishwasher());
-        System.out.println("Responsible waiter: " + order.getResponsibleWaiter());
 
 
     }
