@@ -16,12 +16,7 @@ public class Demo {
         // TODO: make it possible for multiple items to be chosen
         String orderedDishIndex = sc.next();
         Order order = new Order();
-        for (Menu dish: Menu.values()) {
-            if (orderedDishIndex.equals(dish.dishDescriptors[0])){
-                order.getDishes().add(new String[]{dish.dishDescriptors[0], dish.dishDescriptors[1], dish.dishDescriptors[2]});
-                System.out.printf("You ordered '%s', thank you!\n", dish.dishDescriptors[1]);
-            }
-        }
+        order.addDish(orderedDishIndex);
         System.out.println("--------------");
 
         Waiter waiter = new Waiter("Mila", "Jovovich");
