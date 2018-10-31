@@ -12,7 +12,7 @@ public class Waiter extends Employee {
     }
 
     public void takeOrder(Order order) {
-        order.setResponsibleWaiter(this);
+        order.addResponsibleWaiter(this);
     }
 
     public void serveDish(Order order, Dish dish) {

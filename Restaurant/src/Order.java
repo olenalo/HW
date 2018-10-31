@@ -6,30 +6,35 @@ public class Order {
     public static final int MAX_DISHES_NUMBER = 5;
     private List<String[]> dishes;
     private List<Cook> responsibleCooks;
-    private Waiter responsibleWaiter;
-    private DishWasher responsibleDishwasher;
+    private List<Waiter> responsibleWaiters;
+    private List<DishWasher> responsibleDishwashers;
 
     public Order() {
         this.dishes = new ArrayList<>();
         this.responsibleCooks = new ArrayList<>();
+        this.responsibleWaiters = new ArrayList<>();
+        this.responsibleDishwashers = new ArrayList<>();
     }
 
-    public Waiter getResponsibleWaiter() {
-        return this.responsibleWaiter;
+    public List<Waiter> getResponsibleWaiters() {
+        return this.responsibleWaiters;
     }
 
-    public void setResponsibleWaiter(Waiter responsibleWaiter) {
-        this.responsibleWaiter = responsibleWaiter;
+    public void addResponsibleWaiter(Waiter responsibleWaiter) {
+        if (!this.responsibleWaiters.contains(responsibleWaiter)) {
+            this.responsibleWaiters.add(responsibleWaiter);
+        }
     }
 
-    public DishWasher getResponsibleDishwasher() {
-        return this.responsibleDishwasher;
+    public List<DishWasher> getResponsibleDishwashers() {
+        return this.responsibleDishwashers;
     }
 
-    public void setResponsibleDishwasher(DishWasher responsibleDishwasher) {
-        this.responsibleDishwasher = responsibleDishwasher;
+    public void addResponsibleDishwasher(DishWasher responsibleDishwasher) {
+        if (!this.responsibleDishwashers.contains(responsibleDishwasher)) {
+            this.responsibleDishwashers.add(responsibleDishwasher);
+        }
     }
-
     public List<String[]> getDishes() {
         return dishes;
     }
