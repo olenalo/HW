@@ -42,13 +42,18 @@ public class Demo {
             }
         }*/
 
-        if (orderedDishIndex.equals("1") || orderedDishIndex.equals("2")) {
-            dishFactory = new SoupFactory();
-        } else if (orderedDishIndex.equals("3")) {
-            dishFactory = new MainDishFactory();
-        } else if (orderedDishIndex.equals("4")) {
-            dishFactory = new DessertFactory();
-        }  // TODO else throw an exception
+        switch (orderedDishIndex) {
+            case "1":
+            case "2":
+                dishFactory = new SoupFactory();
+                break;
+            case "3":
+                dishFactory = new MainDishFactory();
+                break;
+            case "4":
+                dishFactory = new DessertFactory();
+                break;
+        }
 
 
         DishBuilder dishBuilder = dishFactory.cook(orderedDishIndex);
