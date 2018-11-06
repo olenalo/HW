@@ -1,6 +1,11 @@
 package Trains;
 
+import java.util.Arrays;
+import java.util.InputMismatchException;
+
 public class Train {
+
+    public static final String[] CITIES = {"Kyiv", "Kharkiv", "Energodar"};
     String departurePlace;  // city name
     String destinationPlace;  // city name
     Carriage locomotive;
@@ -13,7 +18,9 @@ public class Train {
             int passengerFirstClassCarriagesNumber,
             int passengerSecondClassCarriagesNumber,
             int cargoCarriagesNumber) {
-        // TODO: check (numbers must be non-negative)
+        if (passengerFirstClassCarriagesNumber < 0 || passengerSecondClassCarriagesNumber < 0 || cargoCarriagesNumber < 0) {
+            throw new IllegalArgumentException("Carriages number must be non-negative.");
+        }
         this.locomotive = new LocomotiveCarriage(); // Always present
         this.carriages = new Carriage[passengerFirstClassCarriagesNumber + passengerSecondClassCarriagesNumber + cargoCarriagesNumber];
         this.passengerFirstClassCarriagesNumber = passengerFirstClassCarriagesNumber;
@@ -44,7 +51,14 @@ public class Train {
         return updateDescription(this.locomotive + "=");
     }
 
+    public void removeAllCarriages() {
+        Arrays.fill(this.carriages, null);
+    }
+
     public void addCarriages() {
+        // Clean up all carriages before to add ones in bulk
+        this.removeAllCarriages();
+
         int index = 0;
 
         // Assume the order never changes (2nd pass -> 1st pass -> cargo, as per sample display)
@@ -68,7 +82,12 @@ public class Train {
     }
 
     public void setItinerary(String departurePlace, String destinationPlace) {
-        // TODO: cities must be different
+        if (departurePlace.equals(destinationPlace)) {
+            throw new IllegalArgumentException("Departure and destination places must be different.");
+        }
+        if (!Arrays.asList(CITIES).contains(departurePlace) || !Arrays.asList(CITIES).contains(destinationPlace)) {
+            throw new IllegalArgumentException("Departure and destination places must be one of: " + Arrays.asList(CITIES));
+        }
         this.departurePlace = departurePlace;
         this.destinationPlace = destinationPlace;
     }
