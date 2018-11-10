@@ -41,7 +41,14 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public boolean add(T t) {
-        Node newNode = new Node<T>(t, last, first);
+        Node<T> newElement = new Node<>(t, this.last, null);
+        Node<T> last = this.last;
+        this.last = newElement;
+        if (last == null) {
+            this.first = newElement;
+        } else {
+            last.setNext(newElement);
+        }
         size++;
         return true;
     }
@@ -94,9 +101,20 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public T get(int index) {
+        T el = null;
         Node<T> current = getNode(index);
-        return current.getElement();
+        if (current != null) {
+            el = current.getElement();
+        }
+        return el;
+    }
 
+    public T getFirst() {
+        return this.first.getElement();
+    }
+
+    public T getLast() {
+        return this.first.getElement();
     }
 
     private Node<T> getNode(int index) {
