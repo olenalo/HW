@@ -111,6 +111,21 @@ public class MyOwnList<T> implements List<T> {
         return current;
     }
 
+    private Node<T> getNode(Object o) {
+        Node<T> current = this.first;
+        if (current != null) {
+            int counter = 0;
+            while (counter < this.size()) {
+                if(current.getElement().equals(o)) {
+                    return current;
+                }
+                current = current.getNext();
+                counter++;
+            }
+        }
+        return current;
+    }
+
     private void checkIndex(int index) {
         if (this.isEmpty()) {
             if (index > 0) {
@@ -135,16 +150,7 @@ public class MyOwnList<T> implements List<T> {
         return prevElement;
     }
 
-    @Override
-    public T remove(int index) {
-        if (index >= this.size) {
-            throw new IndexOutOfBoundsException();
-        }
-        Node<T> current = getNode(index);
-        Node<T> prev = current.getPrev();
-        Node<T> next = current.getNext();
-        T element = current.getElement();
-
+    private void unlinkNode(Node<T> current, Node<T> prev, Node<T> next) {
         if (prev == null) {
             this.first = next;
         } else {
@@ -158,13 +164,34 @@ public class MyOwnList<T> implements List<T> {
             current.setNext(null);
         }
         current.setElement(null);
+    }
+
+    @Override
+    public T remove(int index) {
+        if (index >= this.size) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node<T> current = getNode(index);
+        Node<T> prev = current.getPrev();
+        Node<T> next = current.getNext();
+        T element = current.getElement();
+        unlinkNode(current, prev, next);
         this.size--;
         return element;
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        Node<T> current = getNode(o);
+        if (current == null) {
+            return false;
+        } else {
+            Node<T> prev = current.getPrev();
+            Node<T> next = current.getNext();
+            unlinkNode(current, prev, next);
+            this.size--;
+            return true;
+        }
     }
 
     @Override

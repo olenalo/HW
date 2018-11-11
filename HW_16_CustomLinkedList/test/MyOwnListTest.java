@@ -260,7 +260,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testRemoveByIndexEmptyListSuccess() {
+    public void testRemoveByIndexSingleElementSuccess() {
         list.add(11);
         assertEquals(new Integer(11), list.remove(0));
         assertTrue(list.isEmpty());
@@ -298,6 +298,40 @@ public class MyOwnListTest {
     public void testRemoveByIndexNegativeIndexShouldFail() {
         list.add(1);
         list.remove(-1);
+    }
+
+    @org.junit.Test
+    public void testRemoveByElementSingleElementSuccess() {
+        list.add(11);
+        assertTrue(list.remove(new Integer(11)));
+        assertTrue(list.isEmpty());
+    }
+
+    @org.junit.Test
+    public void testRemoveByElementNonEmptyListSuccess() {
+        // Need to fill and empty a list out first to ensure the node is cleaned up
+        list.add(0);
+        list.remove(new Integer(0));
+        assertTrue(list.isEmpty());
+
+        // Remove from the middle
+        list.add(11);
+        list.add(22);
+        list.add(33);
+        assertTrue(list.remove(new Integer(22)));
+        assertEquals(2, list.size());
+        assertEquals(new Integer(11), list.get(0));
+        assertEquals(new Integer(33), list.get(1));
+    }
+
+    @org.junit.Test
+    public void testRemoveByElementNonExistingShouldReturnFalse() {
+        // Empty list
+        assertFalse(list.remove(new Integer(11)));
+        
+        // Populated
+        list.add(11);
+        assertFalse(list.remove(new Integer(22)));
     }
 
     @org.junit.Test
