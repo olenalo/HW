@@ -38,6 +38,14 @@ public class Main {
             System.out.println(list2.get(i));
         }
 
+        List list3 = new LinkedList();
+        try {
+            list3.set(0, 11);
+            System.out.println("Here we are");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private static void modify(List list) {

@@ -126,6 +126,9 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public T set(int index, T element) {
+        if (index >= this.size) {
+            throw new IndexOutOfBoundsException();
+        }
         Node<T> current = getNode(index);
         T prevElement = current.getElement();
         current.setElement(element);

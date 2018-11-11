@@ -144,7 +144,34 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testSet() {
+    public void testSetSuccess() {
+        list.add(1);
+        list.set(0, 2);
+        assertEquals(new Integer(2), list.get(0));
+        assertEquals(1, list.size());
+
+        list.add(22);
+        list.set(1, 33);
+        assertEquals(new Integer(33), list.get(1));
+        assertEquals(new Integer(2), list.get(0));
+        assertEquals(2, list.size());
+    }
+
+    @org.junit.Test(expected = IndexOutOfBoundsException.class)
+    public void testSetEmptyArrayFailure() {
+        list.set(0, 55);
+    }
+
+    @org.junit.Test(expected = IndexOutOfBoundsException.class)
+    public void testSetWrongIndexFailure() {
+        list.add(1);
+        list.set(1, 2);
+    }
+
+    @org.junit.Test(expected = NegativeArraySizeException.class)
+    public void testSetNegativeIndexFailure() {
+        list.add(1);
+        list.set(-1, 2);
     }
 
     @org.junit.Test
