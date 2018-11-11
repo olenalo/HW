@@ -114,7 +114,7 @@ public class MyOwnList<T> implements List<T> {
     }
 
     public T getLast() {
-        return this.first.getElement();
+        return this.last.getElement();
     }
 
     private Node<T> getNode(int index) {

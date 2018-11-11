@@ -34,12 +34,11 @@ public class MyOwnListTest {
         assertTrue(list.add(2));
         assertEquals(2, list.size);
         assertEquals(new Integer(1), list.getFirst());
-        // assertEquals(new Integer(2), list.getLast());  // FIXME
-
+        assertEquals(new Integer(2), list.getLast());
         assertTrue(list.add(3));
         assertEquals(3, list.size);
         assertEquals(new Integer(1), list.getFirst());
-        // assertEquals(new Integer(3), list.getLast());  // FIXME
+        assertEquals(new Integer(3), list.getLast());
     }
 
     @org.junit.Test
@@ -63,9 +62,9 @@ public class MyOwnListTest {
         list.add(1);
         list.add(2);
         assertEquals(new Integer(1), list.get(0));
-        // assertEquals(new Integer(3), list.get(list.size - 1));  // FIXME
+        assertEquals(new Integer(2), list.get(list.size - 1));
         assertEquals(list.get(0), list.getFirst());
-        // assertEquals(list.get(list.size - 1), list.getLast());  // FIXME
+        assertEquals(list.get(list.size - 1), list.getLast());
     }
 
     @org.junit.Test(expected = NegativeArraySizeException.class)
@@ -78,9 +77,6 @@ public class MyOwnListTest {
     public void getTestEmptyArrayShouldFail() {
         assertEquals(new Integer(1), list.get(0));
     }
-
-    // TODO get(0) equals to getLast
-    // TODO get(size - 1) equals to getLast
 
     @org.junit.Test
     public void set() {
