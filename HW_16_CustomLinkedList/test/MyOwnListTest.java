@@ -1,13 +1,11 @@
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
 public class MyOwnListTest {
+    // TODO ensure first and last elements do not have prev and next nodes respectively, use this: https://stackoverflow.com/a/34658
     MyOwnList<Integer> list;
 
     @org.junit.Before
@@ -510,21 +508,21 @@ public class MyOwnListTest {
         list.add(1);
         list.add(2);
         list.add(3);
-        int[] array = new int[] {1, 2, 3};
+        int[] elements = new int[] {1, 2, 3};
 
         int counter = 0;
         for (Iterator iter = list.iterator(); iter.hasNext();) {
             Integer element = (Integer) iter.next();
             // Ensure a guarantee of order is provided
-            assertEquals(new Integer(array[counter]), element);
+            assertEquals(new Integer(elements[counter]), element);
             counter++;
         }
         assertEquals(3, counter);
 
-        // Should be the same with simple loop
+        // Should be the same with the next loop
         int counter2 = 0;
         for (Integer element: list) {
-            assertEquals(new Integer(array[counter2]), element);
+            assertEquals(new Integer(elements[counter2]), element);
             counter2++;
         }
         assertEquals(3, counter2);
@@ -546,5 +544,54 @@ public class MyOwnListTest {
         for (int i = 0; i < list.size(); i++) {
             assertEquals(list.get(i), array[i]);
         }
+    }
+
+    @org.junit.Test
+    public void testSubListSingleElementList() {
+        list.add(1);
+        List<Integer> newList = list.subList(0, 0);
+        assertEquals(1, newList.size());
+        assertEquals(new Integer(1), newList.get(0));
+    }
+
+    @org.junit.Test
+    public void testSubListMultipleElementsList() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        List<Integer> newList = list.subList(1, 2);
+        assertEquals(2, newList.size());
+        assertEquals(new Integer(2), newList.get(0));
+        assertEquals(new Integer(3), newList.get(1));
+    }
+
+    @org.junit.Test(expected = IndexOutOfBoundsException.class)
+    public void testSubListEmptyListFailure() {
+        List<Integer> newList = list.subList(0, 0);
+        assertTrue(newList.isEmpty());
+    }
+
+    @org.junit.Test(expected = IndexOutOfBoundsException.class)
+    public void testSubListWrongFirstIndexFailure() {
+        list.add(1);
+        list.subList(1, 0);
+    }
+
+    @org.junit.Test(expected = IndexOutOfBoundsException.class)
+    public void testSubListWrongSecondIndexFailure() {
+        list.add(1);
+        list.subList(0, 1);
+    }
+
+    @org.junit.Test(expected = NegativeArraySizeException.class)
+    public void testSubListNegativeFirstIndexFailure() {
+        list.add(1);
+        list.subList(-1, 0);
+    }
+
+    @org.junit.Test(expected = NegativeArraySizeException.class)
+    public void testSubListNegativeSecondIndexFailure() {
+        list.add(1);
+        list.subList(0, -1);
     }
 }

@@ -334,9 +334,17 @@ public class MyOwnList<T> implements List<T> {
 
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
-        // TODO implement
-        throw  new UnsupportedOperationException();
+    public MyOwnList<T> subList(int fromIndex, int toIndex) {
+        if (fromIndex >= this.size || toIndex >= this.size) {
+            throw new IndexOutOfBoundsException();
+        }
+        checkIndex(fromIndex);
+        checkIndex(toIndex);
+        MyOwnList<T> newList = new MyOwnList<>();
+        for (int i = fromIndex; i <= toIndex; i++) {
+            newList.add(this.get(i));
+        }
+        return newList;
     }
 
     @Override

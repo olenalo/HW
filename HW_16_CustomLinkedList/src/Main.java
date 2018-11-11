@@ -18,9 +18,9 @@ public class Main {
         list.add(1);
         list.add(2);
         System.out.println("Size v0: " + list.size());
-        System.out.println("First element v0: " + list.get(0));
+        System.out.println("First element v0: " + ((LinkedList) list).getFirst());
         System.out.println("Second element v0: " + list.get(1));
-        System.out.println("Third element v0: " + list.get(2));
+        System.out.println("Third element v0: " + ((LinkedList) list).getLast());
         System.out.println("--------------------------");
         list.add(1, 11);
         System.out.println("Size v1: " + list.size());
