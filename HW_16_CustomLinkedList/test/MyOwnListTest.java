@@ -449,6 +449,29 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
+    public void testContainsAllGeneralCaseSuccess() {
+        ArrayList<Integer> someList = new ArrayList<>();
+        someList.add(1);
+        someList.add(2);
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        assertTrue(list.containsAll(someList));
+    }
+    @org.junit.Test
+    public void testContainsAllNoOccurrencesShouldBeFalse() {
+        ArrayList<Integer> someList = new ArrayList<>();
+        someList.add(1111);
+        assertFalse(list.containsAll(someList));
+    }
+
+    @org.junit.Test
+    public void testContainsAllOutOfEmptyListShouldBeFalse() {
+        ArrayList<Integer> someList = new ArrayList<>();
+        assertFalse(list.containsAll(someList));
+    }
+
+    @org.junit.Test
     public void testIteratorIterateSuccess() {
         list.add(1);
         list.add(2);

@@ -306,7 +306,15 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        if (c.isEmpty()) {
+            return false;
+        }
+        for(Object o: c) {
+            if(!this.contains(o)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
