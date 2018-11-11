@@ -319,22 +319,29 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] array = new Object[this.size()];
+        for (int i = 0; i < this.size(); i++) {
+            array[i] = this.get(i);
+        }
+        return array;
     }
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
-        return null;
+        // TODO implement, considering this: https://stackoverflow.com/a/530289
+        throw  new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public List<T> subList(int fromIndex, int toIndex) {
+        // TODO implement
+        throw  new UnsupportedOperationException();
     }
 
     @Override
     public MyOwnIterator iterator() {
         return new MyOwnIterator(0);
-    }
-
-    @Override
-    public List<T> subList(int fromIndex, int toIndex) {
-        throw  new UnsupportedOperationException();
     }
 
     @Override

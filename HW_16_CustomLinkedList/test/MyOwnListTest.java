@@ -529,4 +529,22 @@ public class MyOwnListTest {
         }
         assertEquals(3, counter2);
     }
+
+    @org.junit.Test
+    public void testToArrayEmptyList() {
+        Object[] array = list.toArray();
+        for (int i = 0; i < list.size(); i++) {
+            assertNull(array[i]);
+        }
+    }
+
+    @org.junit.Test
+    public void testToArrayPopulatedList() {
+        list.add(1);
+        list.add(2);
+        Object[] array = list.toArray();
+        for (int i = 0; i < list.size(); i++) {
+            assertEquals(list.get(i), array[i]);
+        }
+    }
 }
