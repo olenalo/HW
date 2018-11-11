@@ -101,6 +101,9 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public T get(int index) {
+        if (index >= this.size) {
+            throw new IndexOutOfBoundsException();
+        }
         T el = null;
         Node<T> current = getNode(index);
         if (current != null) {
@@ -129,8 +132,12 @@ public class MyOwnList<T> implements List<T> {
     }
 
     private void checkIndex(int index) {
-        if(index >= size){
-            throw new IndexOutOfBoundsException();
+        if (this.isEmpty()) {
+            if (index > 0) {
+                throw new IndexOutOfBoundsException();
+            }
+        } else if (index > size) {
+                throw new IndexOutOfBoundsException();
         }
         if(index < 0){
             throw new NegativeArraySizeException();
@@ -147,10 +154,15 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
-        Node<T> current = getNode(index);
-        Node<T> addingElement = new Node<T>(element, current.getPrev(), current);
-        size++;
-        current.setPrev(addingElement);
+        if (this.isEmpty() || index == this.size) {
+            checkIndex(index);
+            this.add(element);
+        } else {
+            Node<T> current = getNode(index);
+            Node<T> addingElement = new Node<T>(element, current.getPrev(), current);
+            size++;
+            current.setPrev(addingElement);
+        }
     }
 
     @Override

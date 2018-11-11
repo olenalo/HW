@@ -9,32 +9,28 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test()
-    public void isEmptyTestSuccess() {
+    public void testIsEmptySuccess() {
         assertTrue(list.isEmpty());
     }
 
     @org.junit.Test(expected = IndexOutOfBoundsException.class)
-    public void isEmptyTestThrowsException() {
+    public void testIsEmptyThrowsException() {
         assertNull(list.get(0)); // `checkIndex()` throws an exception
     }
 
-    // TODO move these two to param tests
     @org.junit.Test
-    public void addTestFirstElementSuccess() {
+    public void testAddSuccess() {
         assertTrue(list.add(1));
         assertFalse(list.isEmpty());
         assertEquals(1, list.size);
         assertEquals(new Integer(1), list.getFirst());
         assertEquals(list.getFirst(), list.getLast());
-    }
 
-    @org.junit.Test
-    public void addTestSeveralElementsSuccess() {
-        assertTrue(list.add(1));
         assertTrue(list.add(2));
         assertEquals(2, list.size);
         assertEquals(new Integer(1), list.getFirst());
         assertEquals(new Integer(2), list.getLast());
+
         assertTrue(list.add(3));
         assertEquals(3, list.size);
         assertEquals(new Integer(1), list.getFirst());
@@ -42,15 +38,41 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void addAll() {
+    public void testAddByIndexSuccess() {
+        list.add(0,5);
+        assertEquals(new Integer(5), list.getFirst());
+
+        list.add(1,6);
+        assertEquals(new Integer(6), list.get(1));
+
+        list.add(2,7);
+        assertEquals(new Integer(7), list.get(2));
+    }
+
+    @org.junit.Test(expected = IndexOutOfBoundsException.class)
+    public void testAddByIndexWrongIndexFailure() {
+        list.add(1,5);
+    }
+
+    @org.junit.Test(expected = NegativeArraySizeException.class)
+    public void testAddByIndexNegativeArraySizeException() {
+        list.add(-1,5);
     }
 
     @org.junit.Test
-    public void clear() {
+    public void testAddAll() {
     }
 
     @org.junit.Test
-    public void getTestSuccess() {
+    public void testSet() {
+    }
+
+    @org.junit.Test
+    public void testClear() {
+    }
+
+    @org.junit.Test
+    public void testGetSuccess() {
         list.add(1);
         assertEquals(new Integer(1), list.get(0));
         assertEquals(list.get(0), list.getFirst());
@@ -58,7 +80,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void getTestOutOfMultipleElementsSuccess() {
+    public void testGetOutOfMultipleElementsSuccess() {
         list.add(1);
         list.add(2);
         assertEquals(new Integer(1), list.get(0));
@@ -68,29 +90,25 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test(expected = NegativeArraySizeException.class)
-    public void getTestNegativeIndexShouldFail() {
+    public void testGetNegativeIndexShouldFail() {
         list.add(1);
         assertEquals(new Integer(1), list.get(-1));
     }
 
     @org.junit.Test(expected = IndexOutOfBoundsException.class)
-    public void getTestEmptyArrayShouldFail() {
+    public void testGetEmptyArrayShouldFail() {
         assertEquals(new Integer(1), list.get(0));
     }
 
     @org.junit.Test
-    public void set() {
+    public void testRemove() {
     }
 
     @org.junit.Test
-    public void remove() {
+    public void testIndexOf() {
     }
 
     @org.junit.Test
-    public void indexOf() {
-    }
-
-    @org.junit.Test
-    public void lastIndexOf() {
+    public void testLastIndexOf() {
     }
 }
