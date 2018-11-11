@@ -277,9 +277,6 @@ public class MyOwnListTest {
         list.add(11);
         list.add(22);
         list.add(33);
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("i = " + i + "::: " + list.get(i));
-        }
         assertEquals(new Integer(22), list.remove(1));
         assertEquals(2, list.size());
         assertEquals(new Integer(11), list.get(0));
@@ -304,10 +301,37 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testIndexOf() {
+    public void testIndexOfSuccess() {
+        assertEquals(-1, list.indexOf(1));
+
+        list.add(1);
+        assertEquals(0, list.indexOf(1));
+        assertEquals(-1, list.indexOf(2));
+
+        list.add(2);
+        assertEquals(0, list.indexOf(1));
+        assertEquals(1, list.indexOf(2));
+
+        assertEquals(-1, list.indexOf(-2));
     }
 
     @org.junit.Test
-    public void testLastIndexOf() {
+    public void testLastIndexOfSuccess() {
+        assertEquals(-1, list.lastIndexOf(1));
+
+        list.add(1);
+        assertEquals(0, list.lastIndexOf(1));
+        list.add(1);
+        assertEquals(1, list.lastIndexOf(1));
+
+        list.add(2);
+        assertEquals(1, list.lastIndexOf(1));
+
+        list.add(1);
+        assertEquals(3, list.lastIndexOf(1));
+
+        assertEquals(-1, list.lastIndexOf(3));
+
+        assertEquals(-1, list.lastIndexOf(-3));
     }
 }

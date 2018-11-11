@@ -179,6 +179,9 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public int indexOf(Object o) {
+        if (this.isEmpty()) {
+            return -1;
+        }
         int counter = 0;
         Node<T> current = this.first;
         while(current.getElement() != o){
@@ -193,7 +196,10 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        int counter = 0;
+        if (this.isEmpty()) {
+            return -1;
+        }
+        int counter = 1;
         Node<T> current = this.last;
         while(current.getElement() != o){
             counter++;
