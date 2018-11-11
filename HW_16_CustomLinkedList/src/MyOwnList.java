@@ -137,12 +137,19 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
+        if (index >= this.size) {
+            throw new IndexOutOfBoundsException();
+        }
         Node<T> current = getNode(index);
         Node<T> prev = current.getPrev();
         Node<T> next = current.getNext();
 
-        prev.setNext(next);
-        next.setPrev(prev);
+        if (prev != null) {
+            prev.setNext(next);
+        }
+        if (next != null) {
+            next.setPrev(prev);
+        }
         this.size--;
         return current.getElement();
     }

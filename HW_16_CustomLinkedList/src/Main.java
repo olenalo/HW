@@ -45,6 +45,19 @@ public class Main {
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("--------------------------");
+
+        list3.add(0);
+        list3.remove(0);
+        list3.add(11);
+        list3.add(22);
+        list3.add(33);
+        list3.remove(1);
+        for (int i = 0; i < list3.size(); i++) {
+            System.out.println("i = " + i + "::: " + list3.get(i));
+        }
+        System.out.println("--------------------------");
+
 
     }
 

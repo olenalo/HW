@@ -260,7 +260,47 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testRemove() {
+    public void testRemoveByIndexEmptyListSuccess() {
+        list.add(11);
+        assertEquals(new Integer(11), list.remove(0));
+        assertTrue(list.isEmpty());
+    }
+
+    @org.junit.Test
+    public void testRemoveByIndexNonEmptyListSuccess() {
+        // Need to fill and empty a list out first to ensure the node is cleaned up
+        list.add(0);
+        list.remove(0);
+        assertTrue(list.isEmpty());
+
+        // Remove from the middle
+        list.add(11);
+        list.add(22);
+        list.add(33);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("i = " + i + "::: " + list.get(i));
+        }
+        assertEquals(new Integer(22), list.remove(1));  // FIXME fix the code
+        assertEquals(2, list.size());
+        assertEquals(new Integer(11), list.get(0));
+        assertEquals(new Integer(33), list.get(1));
+    }
+
+    @org.junit.Test(expected = IndexOutOfBoundsException.class)
+    public void testRemoveByIndexEmptyListShouldFail() {
+        list.remove(0);
+    }
+
+    @org.junit.Test(expected = IndexOutOfBoundsException.class)
+    public void testRemoveByIndexWrongIndexShouldFail() {
+        list.add(1);
+        list.remove(1);
+    }
+
+    @org.junit.Test(expected = NegativeArraySizeException.class)
+    public void testRemoveByIndexNegativeIndexShouldFail() {
+        list.add(1);
+        list.remove(-1);
     }
 
     @org.junit.Test
