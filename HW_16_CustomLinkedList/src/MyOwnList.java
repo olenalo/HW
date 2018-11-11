@@ -1,7 +1,4 @@
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class MyOwnList<T> implements List<T> {
 
@@ -90,11 +87,17 @@ public class MyOwnList<T> implements List<T> {
     }
 
     public T getFirst() {
-        return this.first.getElement();
+        Node<T> node = this.first;
+        if (node == null)
+            throw new NoSuchElementException();
+        return node.getElement();
     }
 
     public T getLast() {
-        return this.last.getElement();
+        Node<T> node = this.last;
+        if (node == null)
+            throw new NoSuchElementException();
+        return node.getElement();
     }
 
     private Node<T> getNode(int index) {

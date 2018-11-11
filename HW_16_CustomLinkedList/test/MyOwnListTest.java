@@ -1,5 +1,6 @@
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 
@@ -147,7 +148,59 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testClear() {
+    public void testClearSuccess() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.clear();
+        assertTrue(list.isEmpty());
+    }
+
+    @org.junit.Test(expected = NoSuchElementException.class)
+    public void testClearGetFirstFailure() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.clear();
+        assertTrue(list.isEmpty());
+        list.getFirst();
+    }
+
+    @org.junit.Test(expected = NoSuchElementException.class)
+    public void testClearGetLastFailure() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.clear();
+        list.getLast();
+    }
+
+    @org.junit.Test
+    public void testFirstSuccess() {
+        list.add(1);
+        assertEquals(new Integer(1), list.getFirst());
+
+        list.add(2);
+        assertEquals(new Integer(1), list.getFirst());
+    }
+
+    @org.junit.Test(expected = NoSuchElementException.class)
+    public void testGetFirstFailure() {
+        list.getFirst();
+    }
+
+    @org.junit.Test
+    public void testLastSuccess() {
+        list.add(1);
+        assertEquals(new Integer(1), list.getLast());
+
+        list.add(2);
+        assertEquals(new Integer(2), list.getLast());
+    }
+
+    @org.junit.Test(expected = NoSuchElementException.class)
+    public void testGetLastFailure() {
+        list.getLast();
     }
 
     @org.junit.Test
