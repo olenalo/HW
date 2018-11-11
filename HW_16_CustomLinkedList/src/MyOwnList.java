@@ -42,8 +42,8 @@ public class MyOwnList<T> implements List<T> {
             Node<T> current = getNode(index);
             Node<T> addingElement = new Node<T>(element, current.getPrev(), current);
             this.size++;
+            current.getPrev().setNext(addingElement);
             current.setPrev(addingElement);
-            // current.getPrev().setNext(addingElement);
         }
     }
 
@@ -61,11 +61,9 @@ public class MyOwnList<T> implements List<T> {
             checkIndex(index);
             this.addAll(c);
         } else {
-            Node<T> current = getNode(index);
             for (T element : c) {
-                Node<T> addingElement = new Node<T>(element, current.getPrev(), current);
-                current.setPrev(addingElement);
-                current = addingElement;
+                this.add(index, element);
+                index++;
             }
         }
         return true;
