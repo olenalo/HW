@@ -16,7 +16,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test()
-    public void testIsEmptySuccess() {
+    public void testIsEmpty() {
         assertTrue(list.isEmpty());
     }
 
@@ -26,7 +26,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testAddSuccess() {
+    public void testAdd() {
         assertTrue(list.add(1));
         assertFalse(list.isEmpty());
         assertEquals(1, list.size());
@@ -45,7 +45,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testAddByIndexSuccess() {
+    public void testAddByIndex() {
         list.add(0,5);
         assertFalse(list.isEmpty());
         assertEquals(new Integer(5), list.getFirst());
@@ -77,7 +77,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testAddAllSuccess() {
+    public void testAddAll() {
         LinkedList<Integer> someList = new LinkedList<>();
         someList.add(1);
         someList.add(2);
@@ -100,31 +100,38 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testAddAllEmptySuccess() {
+    public void testAddAllFromEmptyList() {
         list.addAll(new LinkedList<>());
         assertTrue(list.isEmpty());
     }
 
     @org.junit.Test
-    public void testAddAllByIndexEmptySuccess() {
+    public void testAddAllByIndexFromEmptyList() {
         list.addAll(0, new LinkedList<>());
         assertTrue(list.isEmpty());
     }
 
     @org.junit.Test
-    public void testAddAllByIndexSuccess() {
+    public void testAddAllByIndexToEmpyList() {
         LinkedList<Integer> someList = new LinkedList<>();
         someList.add(1);
         someList.add(2);
         someList.add(3);
-
         // Add to an empty list
         list.addAll(0, someList);
         assertEquals(3, list.size());
         assertEquals(new Integer(1), list.get(0));
         assertEquals(new Integer(2), list.get(1));
         assertEquals(new Integer(3), list.get(2));
+    }
 
+    @org.junit.Test
+    public void testAddAllByIndexInTheMiddle() {
+        LinkedList<Integer> someList = new LinkedList<>();
+        someList.add(1);
+        someList.add(2);
+        someList.add(3);
+        list.addAll(0, someList);
         // Add somewhere in the middle (non-empty)
         list.addAll(1, someList);
         assertEquals(6, list.size());
@@ -137,12 +144,12 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test(expected = IndexOutOfBoundsException.class)
-    public void testAddAllByIndexSuccessWrongIndexFailure() {
+    public void testAddAllByIndexWrongIndexFailure() {
         list.addAll(1, new LinkedList<>());
     }
 
     @org.junit.Test(expected = NegativeArraySizeException.class)
-    public void testAddAllByIndexSuccessNegativeArraySizeException() {
+    public void testAddAllByIndexNegativeArraySizeException() {
         list.addAll(-1, new LinkedList<>());
     }
 
@@ -234,7 +241,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testGetSuccess() {
+    public void testGetOutOfSingleElementsListSuccess() {
         list.add(1);
         assertEquals(new Integer(1), list.get(0));
         assertEquals(list.get(0), list.getFirst());
@@ -242,7 +249,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testGetOutOfMultipleElementsSuccess() {
+    public void testGetOutOfMultipleElementsListSuccess() {
         list.add(1);
         list.add(2);
         assertEquals(new Integer(1), list.get(0));
@@ -258,24 +265,22 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test(expected = IndexOutOfBoundsException.class)
-    public void testGetEmptyArrayShouldFail() {
+    public void testGetFromEmptyArrayShouldFail() {
         assertEquals(new Integer(1), list.get(0));
     }
 
     @org.junit.Test
-    public void testRemoveByIndexSingleElementSuccess() {
+    public void testRemoveByIndexFromSingleElementListSuccess() {
         list.add(11);
         assertEquals(new Integer(11), list.remove(0));
         assertTrue(list.isEmpty());
     }
 
     @org.junit.Test
-    public void testRemoveByIndexNonEmptyListSuccess() {
+    public void testRemoveByIndexConsecutiveRemovalSuccess() {
         // Need to fill and empty a list out first to ensure the node is cleaned up
         list.add(0);
         list.remove(0);
-        assertTrue(list.isEmpty());
-
         // Remove from the middle
         list.add(11);
         list.add(22);
@@ -287,7 +292,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test(expected = IndexOutOfBoundsException.class)
-    public void testRemoveByIndexEmptyListShouldFail() {
+    public void testRemoveByIndexFromEmptyListShouldFail() {
         list.remove(0);
     }
 
@@ -304,19 +309,17 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testRemoveByElementSingleElementSuccess() {
+    public void testRemoveByElementFromSingleElementListSuccess() {
         list.add(11);
         assertTrue(list.remove(new Integer(11)));
         assertTrue(list.isEmpty());
     }
 
     @org.junit.Test
-    public void testRemoveByElementNonEmptyListSuccess() {
+    public void testRemoveByElementConsecutiveRemovalSuccess() {
         // Need to fill and empty a list out first to ensure the node is cleaned up
         list.add(0);
         list.remove(new Integer(0));
-        assertTrue(list.isEmpty());
-
         // Remove from the middle
         list.add(11);
         list.add(22);
@@ -331,15 +334,13 @@ public class MyOwnListTest {
     public void testRemoveByElementNonExistingShouldReturnFalse() {
         // Empty list
         assertFalse(list.remove(new Integer(11)));
-
         // Populated
         list.add(11);
         assertFalse(list.remove(new Integer(22)));
     }
 
     @Test
-    public void testRemoveAllSuccess() {
-        // General case, same type
+    public void testRemoveAllWithSameTypes() {
         ArrayList<Integer> someList = new ArrayList<>();
         someList.add(1);
         someList.add(22); // No exception should be thrown when calling the method
@@ -349,20 +350,33 @@ public class MyOwnListTest {
         list.add(3);
         assertTrue(list.removeAll(someList));
         assertEquals(1, list.size());
+    }
 
-        // General case, different types
+    @Test
+    public void testRemoveAllWithDifferentTypes() {
+        list.add(1);
         ArrayList<String> strList = new ArrayList<>();
         strList.add("Lisa");
         assertFalse(list.removeAll(strList));
+    }
 
-        // No such element
+    @Test
+    public void testRemoveAllWhenNoSuchElement() {
+        list.add(1);
         ArrayList<Integer> anotherList = new ArrayList<>();
         anotherList.add(333);
         assertFalse(list.removeAll(anotherList));
     }
 
+    @Test
+    public void testRemoveAllFromEmptyList() {
+        ArrayList<Integer> someList = new ArrayList<>();
+        someList.add(1);
+        assertFalse(list.removeAll(someList));
+    }
+
     @org.junit.Test
-    public void testIndexOfSuccess() {
+    public void testIndexOf() {
         assertEquals(-1, list.indexOf(1));
 
         list.add(1);
@@ -377,7 +391,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testLastIndexOfSuccess() {
+    public void testLastIndexOf() {
         assertEquals(-1, list.lastIndexOf(1));
 
         list.add(1);
@@ -397,7 +411,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testRetainAllSuccess() {
+    public void testRetainAll() {
         // Some should remain
         ArrayList<Integer> someList = new ArrayList<>();
         someList.add(1);
@@ -416,28 +430,48 @@ public class MyOwnListTest {
         assertEquals(new Integer(1), list.get(0));
         assertEquals(new Integer(2), list.get(1));
 
+    }
+
+    @org.junit.Test
+    public void testRetainAllSameElementsShouldNotChange() {
+        list.add(1);
+        list.add(2);
         // Nothing changes
         ArrayList<Integer> anotherList = new ArrayList<>();
         anotherList.add(1);
         anotherList.add(2);
-        // assertFalse(list.retainAll(anotherList));  // FIXME
-        // assertEquals(2, list.size());  // FIXME
-
-        // No exception is thrown if an empty collection is passed
-        ArrayList<Integer> emptyList = new ArrayList<>();
-        // assertFalse(list.retainAll(emptyList));  // FIXME
-        // assertEquals(2, list.size());  // FIXME
-
-        // None will remain
-        ArrayList<Integer> otherList = new ArrayList<>();
-        otherList.add(1111);
-        otherList.add(2222);
-        assertTrue(list.retainAll(otherList));
-        // assertTrue(list.isEmpty()); // FIXME
+        assertFalse(list.retainAll(anotherList));
+        assertEquals(2, list.size());
     }
 
     @org.junit.Test
-    public void testContainsSuccess() {
+    public void testRetainAllOutOfEmptyCollection() {
+        // No exception is thrown if an empty collection is passed
+        list.add(1);
+        ArrayList<Integer> emptyList = new ArrayList<>();
+        assertTrue(list.retainAll(emptyList));
+        assertTrue(list.isEmpty());
+    }
+
+    @org.junit.Test
+    public void testRetainAllNoElementsRemain() {
+        list.add(1);
+        ArrayList<Integer> otherList = new ArrayList<>();
+        otherList.add(1111);
+        assertTrue(list.retainAll(otherList));
+        assertTrue(list.isEmpty());
+    }
+
+    @org.junit.Test
+    public void testRetainAllInEmptyList() {
+        // No exception is thrown if the list is empty
+        ArrayList<Integer> someList = new ArrayList<>();
+        someList.add(1);
+        assertFalse(list.retainAll(someList));
+    }
+
+    @org.junit.Test
+    public void testContains() {
         list.add(1);
         list.add(2);
         list.add(3);
@@ -449,7 +483,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testContainsAllGeneralCaseSuccess() {
+    public void testContainsAllGeneralCase() {
         ArrayList<Integer> someList = new ArrayList<>();
         someList.add(1);
         someList.add(2);
@@ -472,7 +506,7 @@ public class MyOwnListTest {
     }
 
     @org.junit.Test
-    public void testIteratorIterateSuccess() {
+    public void testIterator() {
         list.add(1);
         list.add(2);
         list.add(3);
