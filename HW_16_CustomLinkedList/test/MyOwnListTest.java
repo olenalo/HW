@@ -51,12 +51,16 @@ public class MyOwnListTest {
 
         list.add(2,7);
         assertEquals(new Integer(7), list.get(2));
-
         assertEquals(3, list.size());
 
         // FIXME Add somewhere in the middle (non-empty)
         list.add(1,99);
-        assertEquals(6, list.size());
+        assertEquals(4, list.size());
+        /*
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("---" + list.get(i));
+        }
+        */
         assertEquals(new Integer(5), list.get(0));
         assertEquals(new Integer(99), list.get(1));
         assertEquals(new Integer(6), list.get(2));
