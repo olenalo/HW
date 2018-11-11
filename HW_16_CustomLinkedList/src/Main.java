@@ -7,6 +7,8 @@ public class Main {
         // modify(list);
         HashSet s = new HashSet();
 
+        MyOwnList<Integer> myOwnList = new MyOwnList<>();
+
         // Explore the behaviour:
 
         // list.add(0, 1);

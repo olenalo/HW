@@ -280,7 +280,7 @@ public class MyOwnListTest {
         for (int i = 0; i < list.size(); i++) {
             System.out.println("i = " + i + "::: " + list.get(i));
         }
-        assertEquals(new Integer(22), list.remove(1));  // FIXME fix the code
+        assertEquals(new Integer(22), list.remove(1));
         assertEquals(2, list.size());
         assertEquals(new Integer(11), list.get(0));
         assertEquals(new Integer(33), list.get(1));

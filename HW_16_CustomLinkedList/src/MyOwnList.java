@@ -143,15 +143,23 @@ public class MyOwnList<T> implements List<T> {
         Node<T> current = getNode(index);
         Node<T> prev = current.getPrev();
         Node<T> next = current.getNext();
+        T element = current.getElement();
 
-        if (prev != null) {
+        if (prev == null) {
+            this.first = next;
+        } else {
             prev.setNext(next);
+            current.setPrev(null);
         }
-        if (next != null) {
+        if (next == null) {
+            this.last = prev;
+        } else {
             next.setPrev(prev);
+            current.setNext(null);
         }
+        current.setElement(null);
         this.size--;
-        return current.getElement();
+        return element;
     }
 
     @Override
