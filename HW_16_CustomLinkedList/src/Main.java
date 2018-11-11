@@ -74,7 +74,6 @@ public class Main {
             System.out.println(list3.get(i));
         }
         System.out.println("--------------------------");
-
     }
 
     private static void modify(List list) {

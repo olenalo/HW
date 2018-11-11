@@ -1,4 +1,6 @@
 public class Node<T> {
+    // TODO: declare in `MyOwnList` to protect
+
     public Node(T element, Node<T> prev, Node<T> next) {
         this.element = element;
         this.prev = prev;

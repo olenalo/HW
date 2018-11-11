@@ -1,10 +1,52 @@
 import java.util.*;
+import java.util.function.Consumer;
 
 public class MyOwnList<T> implements List<T> {
 
     private Node<T> first;
     private Node<T> last;
     private int size;
+
+    private class MyOwnIterator implements Iterator<T> {
+        // Remember to provide a guarantee of order
+
+        private Node<T> lastReturned;
+        private Node<T> next;
+        private int nextIndex;
+
+        public MyOwnIterator(int index) {
+            next = (index == size) ? null : getNode(index);
+            nextIndex = index;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return nextIndex < size;
+        }
+
+        @Override
+        public T next() {
+            checkIndex(nextIndex);
+            if (!hasNext())
+                throw new NoSuchElementException();
+            lastReturned = next;
+            next = next.getNext();
+            nextIndex++;
+            return lastReturned.getElement();
+        }
+
+        @Override
+        public void remove() {
+            // TODO implement
+            throw  new UnsupportedOperationException();
+        }
+
+        @Override
+        public void forEachRemaining(Consumer action) {
+            // TODO implement
+            throw  new UnsupportedOperationException();
+        }
+    }
 
     @Override
     public int size() {
@@ -207,7 +249,15 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        boolean result = false;
+        for (T element: this) {
+            if (!c.contains(element)) {
+                if(this.remove(element)) {
+                    result = true;
+                }
+            }
+        }
+        return result;
     }
 
     @Override
@@ -247,6 +297,11 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public boolean contains(Object o) {
+        for (T element: this) {
+            if (o.equals(element)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -267,21 +322,24 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
-    }
-
-    @Override
-    public ListIterator<T> listIterator() {
-        throw  new UnsupportedOperationException();
-    }
-
-    @Override
-    public ListIterator<T> listIterator(int index) {
-        throw  new UnsupportedOperationException();
+        return new MyOwnIterator(0);  // TODO 0???
     }
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         throw  new UnsupportedOperationException();
     }
+
+    @Override
+    public ListIterator<T> listIterator() {
+        // TODO implement
+        throw  new UnsupportedOperationException();
+    }
+
+    @Override
+    public ListIterator<T> listIterator(int index) {
+        // TODO implement
+        throw  new UnsupportedOperationException();
+    }
+
 }

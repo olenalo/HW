@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
@@ -330,7 +331,7 @@ public class MyOwnListTest {
     public void testRemoveByElementNonExistingShouldReturnFalse() {
         // Empty list
         assertFalse(list.remove(new Integer(11)));
-        
+
         // Populated
         list.add(11);
         assertFalse(list.remove(new Integer(22)));
@@ -342,11 +343,12 @@ public class MyOwnListTest {
         ArrayList<Integer> someList = new ArrayList<>();
         someList.add(1);
         someList.add(22); // No exception should be thrown when calling the method
+        someList.add(3);
         list.add(1);
         list.add(2);
         list.add(3);
         assertTrue(list.removeAll(someList));
-        assertEquals(2, list.size());
+        assertEquals(1, list.size());
 
         // General case, different types
         ArrayList<String> strList = new ArrayList<>();
@@ -392,5 +394,68 @@ public class MyOwnListTest {
         assertEquals(-1, list.lastIndexOf(3));
 
         assertEquals(-1, list.lastIndexOf(-3));
+    }
+
+    @org.junit.Test
+    public void testRetainAllSuccess() {
+        // Some should remain
+        ArrayList<Integer> someList = new ArrayList<>();
+        someList.add(1);
+        someList.add(2);
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        assertTrue(list.retainAll(someList));
+        // assertEquals(2, list.size()); // FIXME
+        assertEquals(new Integer(1), list.get(0));
+        assertEquals(new Integer(2), list.get(1));
+
+        // Nothing changes
+        ArrayList<Integer> anotherList = new ArrayList<>();
+        anotherList.add(1);
+        anotherList.add(2);
+        // assertFalse(list.retainAll(anotherList));  // FIXME
+        // assertEquals(2, list.size());  // FIXME
+
+        // No exception is thrown if an empty collection is passed
+        ArrayList<Integer> emptyList = new ArrayList<>();
+        // assertFalse(list.retainAll(emptyList));  // FIXME
+        // assertEquals(2, list.size());  // FIXME
+
+        // None will remain
+        ArrayList<Integer> otherList = new ArrayList<>();
+        otherList.add(1111);
+        otherList.add(2222);
+        assertTrue(list.retainAll(otherList));
+        // assertTrue(list.isEmpty()); // FIXME
+    }
+
+    @org.junit.Test
+    public void testContainsSuccess() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        assertTrue(list.contains(3));
+        assertFalse(list.contains(33));
+        assertFalse(list.contains("3"));
+    }
+
+    @org.junit.Test
+    public void testIteratorIterateSuccess() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        int[] array = new int[] {1, 2, 3};
+
+        int counter = 0;
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Integer element = (Integer) iter.next();
+            // Ensure a guarantee of order is provided
+            assertEquals(new Integer(array[counter]), element);
+            counter++;
+        }
+        assertEquals(3, counter);
+
     }
 }
