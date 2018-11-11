@@ -1,4 +1,6 @@
-import java.util.Collection;
+import org.junit.Test;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
@@ -332,6 +334,29 @@ public class MyOwnListTest {
         // Populated
         list.add(11);
         assertFalse(list.remove(new Integer(22)));
+    }
+
+    @Test
+    public void testRemoveAllSuccess() {
+        // General case, same type
+        ArrayList<Integer> someList = new ArrayList<>();
+        someList.add(1);
+        someList.add(22); // No exception should be thrown when calling the method
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        assertTrue(list.removeAll(someList));
+        assertEquals(2, list.size());
+
+        // General case, different types
+        ArrayList<String> strList = new ArrayList<>();
+        strList.add("Lisa");
+        assertFalse(list.removeAll(strList));
+
+        // No such element
+        ArrayList<Integer> anotherList = new ArrayList<>();
+        anotherList.add(333);
+        assertFalse(list.removeAll(anotherList));
     }
 
     @org.junit.Test

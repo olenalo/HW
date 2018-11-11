@@ -196,7 +196,13 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        boolean result = false;
+        for (Object o: c) {
+            if (this.remove(o)) {
+                result = true;
+            }
+        }
+        return result;
     }
 
     @Override

@@ -39,6 +39,14 @@ public class Main {
         for (int i = 0; i < list2.size(); i++) {
             System.out.println(list2.get(i));
         }
+        System.out.println("--------------------------");
+
+        System.out.println("------ removeAll()-------");
+        list2.removeAll(list);
+        for (int i = 0; i < list2.size(); i++) {
+            System.out.println(list2.get(i));
+        }
+        System.out.println("--------------------------");
 
         List list3 = new LinkedList();
         try {
@@ -60,6 +68,12 @@ public class Main {
         }
         System.out.println("--------------------------");
 
+        System.out.println("------ removeAll()-------");
+        System.out.println(list3.removeAll(list));
+        for (int i = 0; i < list3.size(); i++) {
+            System.out.println(list3.get(i));
+        }
+        System.out.println("--------------------------");
 
     }
 
