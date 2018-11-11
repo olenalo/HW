@@ -8,13 +8,11 @@ public class MyOwnList<T> implements List<T> {
     private int size;
 
     private class MyOwnIterator implements Iterator<T> {
-        // Remember to provide a guarantee of order
-
         private Node<T> lastReturned;
         private Node<T> next;
         private int nextIndex;
 
-        public MyOwnIterator(int index) {
+        MyOwnIterator(int index) {
             next = (index == size) ? null : getNode(index);
             nextIndex = index;
         }
@@ -79,7 +77,7 @@ public class MyOwnList<T> implements List<T> {
             this.add(element);
         } else {
             Node<T> current = getNode(index);
-            Node<T> addingElement = new Node<T>(element, current.getPrev(), current);
+            Node<T> addingElement = new Node<>(element, current.getPrev(), current);
             this.size++;
             current.getPrev().setNext(addingElement);
             current.setPrev(addingElement);
@@ -251,6 +249,7 @@ public class MyOwnList<T> implements List<T> {
     public boolean retainAll(Collection<?> c) {
         boolean result = false;
         for (T element: this) {
+            // System.out.println(element);
             if (!c.contains(element)) {
                 if(this.remove(element)) {
                     result = true;
@@ -321,8 +320,8 @@ public class MyOwnList<T> implements List<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return new MyOwnIterator(0);  // TODO 0???
+    public MyOwnIterator iterator() {
+        return new MyOwnIterator(0);
     }
 
     @Override

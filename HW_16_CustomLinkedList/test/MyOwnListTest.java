@@ -407,6 +407,11 @@ public class MyOwnListTest {
         list.add(3);
         list.add(4);
         assertTrue(list.retainAll(someList));
+        /*
+        for (int el: list) {
+            System.out.println("---" + el);
+        }
+        */
         // assertEquals(2, list.size()); // FIXME
         assertEquals(new Integer(1), list.get(0));
         assertEquals(new Integer(2), list.get(1));
@@ -436,6 +441,8 @@ public class MyOwnListTest {
         list.add(1);
         list.add(2);
         list.add(3);
+        assertTrue(list.contains(1));
+        assertTrue(list.contains(2));
         assertTrue(list.contains(3));
         assertFalse(list.contains(33));
         assertFalse(list.contains("3"));
@@ -457,5 +464,12 @@ public class MyOwnListTest {
         }
         assertEquals(3, counter);
 
+        // Should be the same with simple loop
+        int counter2 = 0;
+        for (Integer element: list) {
+            assertEquals(new Integer(array[counter2]), element);
+            counter2++;
+        }
+        assertEquals(3, counter2);
     }
 }
