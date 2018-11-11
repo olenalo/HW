@@ -7,7 +7,7 @@ public class MyOwnList<T> implements List<T> {
 
     private Node<T> first;
     private Node<T> last;
-    int size;
+    private int size;
 
     @Override
     public int size() {
@@ -73,11 +73,16 @@ public class MyOwnList<T> implements List<T> {
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-        Node<T> current = getNode(index);
-        for (T element: c) {
-            Node<T> addingElement = new Node<T>(element, current.getPrev(), current);
-            current.setPrev(addingElement);
-            current = addingElement;
+        if (this.isEmpty() || index == this.size) {
+            checkIndex(index);
+            this.addAll(c);
+        } else {
+            Node<T> current = getNode(index);
+            for (T element : c) {
+                Node<T> addingElement = new Node<T>(element, current.getPrev(), current);
+                current.setPrev(addingElement);
+                current = addingElement;
+            }
         }
         return true;
     }
