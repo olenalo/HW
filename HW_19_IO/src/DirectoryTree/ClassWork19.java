@@ -1,9 +1,11 @@
-package LocalDiskIO;
+package DirectoryTree;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class ClassWork19 {
     // ClassWork19: https://github.com/teaFunny/ClassWork19
@@ -15,18 +17,28 @@ public class ClassWork19 {
         try (FileWriter writer = new FileWriter("cw_19_test.txt")) {
             File directory = new File(getDirectoryPath());
             if (directory.exists() && directory.isDirectory() && directory.listFiles() != null) {
-                writeAllFiles(writer, directory, 0);
+                writeAllFiles(writer, directory);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void writeAllFiles(FileWriter writer, File directory, int enters) throws IOException {
-        for (File file : directory.listFiles()) {
-            writer.write(generateBlankString(enters) + file.getName() + ":" + file.lastModified() + "\r\n");
-            if (file.isDirectory() && file.listFiles() != null) {
-                writeAllFiles(writer, file, ++enters);
+    public static void writeAllFiles(FileWriter writer, File directory) throws IOException {
+        int indents = 0;
+        Stack<File> filesStack = new Stack<>();
+        filesStack.push(directory);
+        while(!filesStack.isEmpty()) {
+            File file = filesStack.pop();
+            File[] filesList = file.listFiles();
+            if (file.isDirectory() && filesList != null) {
+                writer.write(generateBlankString(indents) + file.getName() + ":" + file.lastModified() + "\r\n");
+                for(File f : filesList) {
+                    filesStack.push(f);
+                }
+                indents++;  // FIXME fix indents
+            } else if (file.isFile()) {
+                writer.write(generateBlankString(indents) + file.getName() + ":" + file.lastModified() + "\r\n");
             }
         }
     }
@@ -40,7 +52,7 @@ public class ClassWork19 {
     private static String generateBlankString(int length) {
         String result = "";
         for (int i = 0; i < length; i++) {
-            result += " ";
+            result += "    ";
         }
         return result;
     }
