@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class InterfileIO {
+    public static final int BUFFER_SIZE = 1000;  // Ref. https://stackoverflow.com/a/4901577
 
     private static String[] getUserDefinedData() {
         System.out.println("Please type: \n" +
@@ -36,9 +37,8 @@ public class InterfileIO {
         }
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            if (linesNumber > reader.lines().count()) {
-                throw new IllegalArgumentException("User defined lines number is bigger than the actual number");
-            }
+            // Ref. https://stackoverflow.com/a/4901577
+            checkFileLinesNumber(reader, linesNumber);
             String contentString;
             while ((contentString = reader.readLine()) != null) {
                 content.append(contentString);
@@ -48,6 +48,19 @@ public class InterfileIO {
             e.printStackTrace();
         }
         return content.toString();
+    }
+
+    public static void checkFileLinesNumber(BufferedReader reader, int linesNumber) {
+        // Ref. https://stackoverflow.com/a/4901577
+        try {
+            reader.mark(BUFFER_SIZE);
+            if (linesNumber > reader.lines().count()) {
+                throw new IllegalArgumentException("User defined lines number is bigger than the actual number");
+            }
+            reader.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void doAll(String inputFileName, String outputFileName, int linesNumber) {
