@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class SerializeDeserializeDemo {
 
     public static void main(String[] args) {
+        // TODO consider externalization
+        // TODO handle FileNotFoundException
         ArrayList<Person> persons = new ArrayList<>();
         Person person = new Person("Ella", 25, Gender.FEMALE);
         persons.add(person); // TODO at least 5 objects!

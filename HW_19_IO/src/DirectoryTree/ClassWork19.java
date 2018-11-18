@@ -13,7 +13,7 @@ public class ClassWork19 {
     }
 
     public static void doAll() {
-        try (FileWriter writer = new FileWriter("cw_19_test.txt")) {
+        try (FileWriter writer = new FileWriter("hw19_directory_tree.txt")) {
             File directory = new File(getDirectoryPath());
             if (directory.exists() && directory.isDirectory() && directory.listFiles() != null) {
                 writeAllFiles(writer, directory);
