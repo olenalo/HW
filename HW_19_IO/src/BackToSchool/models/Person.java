@@ -3,7 +3,9 @@ package BackToSchool.models;
 import BackToSchool.constants.Gender;
 import BackToSchool.Utils;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable {
     public static final int MIN_AGE = 0;
     public static final int MAX_AGE = 100;
     private String name;
