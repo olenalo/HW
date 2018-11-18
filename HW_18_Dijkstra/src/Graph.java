@@ -60,12 +60,12 @@ public class Graph {
                 if (!this.nodes.get(neighborNodeIndex).isVisited()) {
                     int cost = this.nodes.get(nextNodeIndex).getDistanceToSource() + edge.getLength();
                     if (cost < nodes.get(neighborNodeIndex).getDistanceToSource()) {
-                        nodes.get(neighborNodeIndex).setDistanceToSource(cost);
-                        nodes.get(neighborNodeIndex).getPathToSource().add(edge.getToNodeIndex()); // FIXME store the path as well
+                        this.nodes.get(neighborNodeIndex).setDistanceToSource(cost);
                     }
                 }
             }
-            nodes.get(nextNodeIndex).setVisited(true);
+            // TODO add path as well
+            this.nodes.get(nextNodeIndex).setVisited(true);
             nextNodeIndex = getClosestAvailableNode();
         }
     }

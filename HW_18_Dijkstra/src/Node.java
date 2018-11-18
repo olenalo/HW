@@ -47,6 +47,10 @@ public class Node {
         this.edges.add(edge);
     }
 
+    public void addPathEntry(int i) {
+        this.pathToSource.add(i);
+    }
+
     public void setEdges(ArrayList<Edge> edges) {
         this.edges = edges;
     }
