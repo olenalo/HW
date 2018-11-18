@@ -6,6 +6,7 @@ import BackToSchool.Utils;
 import java.io.Serializable;
 
 public class Person implements Serializable {
+    private static final long serialVersionUID = 1L;
     public static final int MIN_AGE = 0;
     public static final int MAX_AGE = 100;
     private String name;
