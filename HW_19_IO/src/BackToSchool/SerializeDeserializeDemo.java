@@ -3,17 +3,18 @@ package BackToSchool;
 import BackToSchool.constants.Gender;
 import BackToSchool.models.Person;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SerializeDeserializeDemo {
 
+    public static final String PERSONS_INPUT_FILE = "hw19_persons_input.txt";
+    public static final String PERSONS_EMPTY_INPUT_FILE = "hw19_persons_empty_input.txt";
+    public static final String SERIALIZED_PERSONS_FILE = "hw19_persons.ser";
+
+    // TODO consider using it (not sure we need it)
     private static String getUserDefinedData() {
         System.out.println("Please enter: the name of an input file, " +
                 "e.g. 'hw19_persons_empty_input.txt', 'hw19_persons_input.txt'.");
@@ -47,7 +48,7 @@ public class SerializeDeserializeDemo {
         return deserializedPersons;
     }
 
-    public static void main(String[] args) {
+    public static ArrayList<Person> getDefaultPersons() {
         ArrayList<Person> persons = new ArrayList<>();
         Person person1 = new Person("Ella", 25, Gender.FEMALE);
         Person person2 = new Person("Ihor", 30, Gender.MALE);
@@ -59,10 +60,42 @@ public class SerializeDeserializeDemo {
         persons.add(person3);
         persons.add(person4);
         persons.add(person5);
+        return persons;
+    }
 
+    public static ArrayList<Person> readPersonsData(String filename) {
+        ArrayList<Person> persons = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            if (!scanner.hasNext()) {
+                persons = getDefaultPersons();
+            } else {
+                scanner.useDelimiter(",|\n");
+                persons = new ArrayList<>();
+                while (scanner.hasNext()) {
+                    String name = scanner.next();
+                    int age = Integer.valueOf(scanner.next());
+                    Gender gender = scanner.next().equals("F") ? Gender.FEMALE : Gender.MALE;
+                    persons.add(new Person(name, age, gender));
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Read personal data from a file: " + persons);
+        return persons;
+    }
+
+    public static void main(String[] args) {
         // TODO consider externalization
-       serializePersons(persons, "hw19_persons.ser");
-        deserializePersons("hw19_persons.ser");
 
+        ArrayList<Person> persons = readPersonsData(PERSONS_INPUT_FILE);
+        serializePersons(persons, SERIALIZED_PERSONS_FILE);
+        deserializePersons(SERIALIZED_PERSONS_FILE);
+        System.out.println("-------------");
+
+        // Case with empty input data
+        ArrayList<Person> persons2 = readPersonsData(PERSONS_EMPTY_INPUT_FILE);
+        serializePersons(persons2, SERIALIZED_PERSONS_FILE);
+        deserializePersons(SERIALIZED_PERSONS_FILE);
     }
 }

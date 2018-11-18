@@ -81,6 +81,7 @@ public class InterfileIO {
         int linesNumber = 1;
         */
 
+        // TODO: consider RandomAccessFile
         doAll(inputFile, outputFile, linesNumber);
 
         // Case: input file not indicated
