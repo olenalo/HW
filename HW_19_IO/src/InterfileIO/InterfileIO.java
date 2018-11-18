@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class InterfileIO {
-    public static final int BUFFER_SIZE = 1000;  // Ref. https://stackoverflow.com/a/4901577
+    public static final int BUFFER_SIZE = 1000;
 
     private static String[] getUserDefinedData() {
         System.out.println("Please type: \n" +
@@ -37,12 +37,13 @@ public class InterfileIO {
         }
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            // Ref. https://stackoverflow.com/a/4901577
             checkFileLinesNumber(reader, linesNumber);
             String contentString;
-            while ((contentString = reader.readLine()) != null) {
+            int linesCount = 1;
+            while ((contentString = reader.readLine()) != null && linesCount <= linesNumber) {
                 content.append(contentString);
                 content.append("\r\n");
+                linesCount++;
             }
         } catch (IOException e) {
             e.printStackTrace();
