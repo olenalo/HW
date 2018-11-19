@@ -1,25 +1,9 @@
 package InterfileIO;
 
 import java.io.*;
-import java.util.Scanner;
 
 public class InterfileIO {
     public static final int BUFFER_SIZE = 1000;
-    public static final String INPUT_FILE = "hw19_custom_data_input.txt";
-    public static final String OUTPUT_FILE = "hw19_custom_data_output.txt";
-
-    private static String[] getUserDefinedData() {
-        System.out.println("Please type: \n" +
-                "(1) name of an input file e.g. 'hw19_custom_data_input.txt', \n" +
-                "(2) name of an output file, e.g. 'hw19_custom_data_output.txt', and \n" +
-                "(3) number of lines to read from the input file (and to write to the output).");
-        try (Scanner scanner = new Scanner(System.in)) {
-            String first = scanner.next();
-            String second = scanner.next();
-            String linesNumber = scanner.next();
-            return new String[]{first, second, linesNumber};
-        }
-    }
 
     public static void write(String content, String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
@@ -56,10 +40,9 @@ public class InterfileIO {
 
     public static long checkFileLinesNumber(BufferedReader reader, long linesNumber) {
         // Ref. https://stackoverflow.com/a/4901577
-        long actualLinesNumber = 0;
         try {
             reader.mark(BUFFER_SIZE);
-            actualLinesNumber = reader.lines().count();
+            long actualLinesNumber = reader.lines().count();
             if (linesNumber > actualLinesNumber) {
                 throw new IllegalArgumentException("User defined lines number is bigger than the actual number");
             }
@@ -79,7 +62,7 @@ public class InterfileIO {
     }
 
     public static void main(String[] args) {
-        String[] userDefinedData = getUserDefinedData();
+        String[] userDefinedData = Utils.getUserDefinedData();
         String inputFile = userDefinedData[0];  // hw19_custom_data_input.txt
         String outputFile = userDefinedData[1]; // hw19_custom_data_output.txt
         long linesNumber = Long.valueOf(userDefinedData[2]);
@@ -90,32 +73,32 @@ public class InterfileIO {
         int linesNumber = 1;
         */
 
-        // TODO: consider RandomAccessFile
         doAll(inputFile, outputFile, linesNumber);
 
+        // TODO: move this to unit tests once implemented
         // Case: input file not indicated
         try {
-            doAll("", OUTPUT_FILE, 1);
+            doAll("", Configs.OUTPUT_FILE, 1);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
         // Case: input file does not exist
         try {
-            doAll("does_not_exist", OUTPUT_FILE, 1);
+            doAll("does_not_exist", Configs.OUTPUT_FILE, 1);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
         // Case: number of lines bigger than input file's number of lines
         try {
-            doAll(INPUT_FILE, OUTPUT_FILE, 10);
+            doAll(Configs.INPUT_FILE, Configs.OUTPUT_FILE, 10);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
         // Case: default number of lines is used (input file's number of lines)
-        // doAll(INPUT_FILE, OUTPUT_FILE, 0);
+        // doAll(Utils.INPUT_FILE, Utils.OUTPUT_FILE, 0);
 
     }
 }
