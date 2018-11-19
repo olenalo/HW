@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class InterfileIO {
     public static final int BUFFER_SIZE = 1000;
+    public static final String INPUT_FILE = "hw19_custom_data_input.txt";
+    public static final String OUTPUT_FILE = "hw19_custom_data_output.txt";
 
     private static String[] getUserDefinedData() {
         System.out.println("Please type: \n" +
@@ -27,7 +29,7 @@ public class InterfileIO {
         }
     }
 
-    public static String read(String filename, int linesNumber) {
+    public static String read(String filename, long linesNumber) {
         if (filename == null) {
             throw new IllegalArgumentException("Input file name is not indicated.");
         }
@@ -36,11 +38,12 @@ public class InterfileIO {
             throw new IllegalArgumentException("Input file is not found.");
         }
         StringBuilder content = new StringBuilder();
+        long checkedLinesNumber = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            checkFileLinesNumber(reader, linesNumber);
+            checkedLinesNumber = checkFileLinesNumber(reader, linesNumber);
             String contentString;
             int linesCount = 1;
-            while ((contentString = reader.readLine()) != null && linesCount <= linesNumber) {
+            while ((contentString = reader.readLine()) != null && linesCount <= checkedLinesNumber) {
                 content.append(contentString);
                 content.append("\r\n");
                 linesCount++;
@@ -51,20 +54,26 @@ public class InterfileIO {
         return content.toString();
     }
 
-    public static void checkFileLinesNumber(BufferedReader reader, int linesNumber) {
+    public static long checkFileLinesNumber(BufferedReader reader, long linesNumber) {
         // Ref. https://stackoverflow.com/a/4901577
+        long actualLinesNumber = 0;
         try {
             reader.mark(BUFFER_SIZE);
-            if (linesNumber > reader.lines().count()) {
+            actualLinesNumber = reader.lines().count();
+            if (linesNumber > actualLinesNumber) {
                 throw new IllegalArgumentException("User defined lines number is bigger than the actual number");
+            }
+            if (linesNumber == 0) {
+                linesNumber = actualLinesNumber;
             }
             reader.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return linesNumber;
     }
 
-    public static void doAll(String inputFileName, String outputFileName, int linesNumber) {
+    public static void doAll(String inputFileName, String outputFileName, long linesNumber) {
         String content = read(inputFileName, linesNumber);
         write(content, outputFileName);
     }
@@ -73,7 +82,7 @@ public class InterfileIO {
         String[] userDefinedData = getUserDefinedData();
         String inputFile = userDefinedData[0];  // hw19_custom_data_input.txt
         String outputFile = userDefinedData[1]; // hw19_custom_data_output.txt
-        int linesNumber = Integer.valueOf(userDefinedData[2]);
+        long linesNumber = Long.valueOf(userDefinedData[2]);
 
         /*
         String inputFile = "hw19_custom_data_input.txt";
@@ -86,23 +95,27 @@ public class InterfileIO {
 
         // Case: input file not indicated
         try {
-            doAll("", "hw19_custom_data_output.txt", 1);
+            doAll("", OUTPUT_FILE, 1);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
         // Case: input file does not exist
         try {
-            doAll("does_not_exist", "hw19_custom_data_output.txt", 1);
+            doAll("does_not_exist", OUTPUT_FILE, 1);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
         // Case: number of lines bigger than input file's number of lines
         try {
-            doAll("hw19_custom_data_input.txt", "hw19_custom_data_output.txt", 10);
+            doAll(INPUT_FILE, OUTPUT_FILE, 10);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+
+        // Case: default number of lines is used (input file's number of lines)
+        // doAll(INPUT_FILE, OUTPUT_FILE, 0);
+
     }
 }
