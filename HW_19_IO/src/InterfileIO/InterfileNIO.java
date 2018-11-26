@@ -19,16 +19,27 @@ public class InterfileNIO {
         return linesNumber;
     }
 
-    public static void doAll(String inputFileName, String outputFileName, long linesNumber) {
-        // TODO handle exceptional cases
+    public static void checkFile(String filename) {
+        if (filename.equals("") || filename == null) {
+            throw new IllegalArgumentException("Input file name is not indicated.");
+        }
+        if (!Files.exists(Paths.get(filename))) {
+            throw new IllegalArgumentException("Input file is not found.");
+        }
+    }
+
+    public static void readWriteInterfile(String inputFileName, String outputFileName, long linesNumber) {
         // FIXME work on bigger files (channel is bigger than buffer's capacity)
         // FIXME case with max number of lines (equal to file lines number)
+
+        checkFile(inputFileName);
+        // TODO check lines number
 
         try {
             RandomAccessFile copyFrom = new RandomAccessFile(inputFileName, "rw");
             FileChannel fromChannel = copyFrom.getChannel();
 
-            ByteBuffer buf = ByteBuffer.allocate(Configs.BUFFER_CAPACITY);
+            ByteBuffer buf = ByteBuffer.allocate(Configs.NIO_BUFFER_CAPACITY);
             int bytesRead = fromChannel.read(buf);
             int linesCount = 0;
 
@@ -59,6 +70,6 @@ public class InterfileNIO {
     public static void main(String[] args) {
         long linesNumber = getLinesNumber();
         // linesNumber = 5;
-        doAll(Configs.INPUT_FILE, Configs.OUTPUT_FILE, linesNumber);
+        readWriteInterfile(Configs.INPUT_FILE, Configs.OUTPUT_FILE, linesNumber);
     }
 }

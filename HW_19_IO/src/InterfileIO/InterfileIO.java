@@ -3,7 +3,6 @@ package InterfileIO;
 import java.io.*;
 
 public class InterfileIO {
-    public static final int BUFFER_SIZE = 1000;
 
     public static void write(String content, String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
@@ -14,7 +13,7 @@ public class InterfileIO {
     }
 
     public static String read(String filename, long linesNumber) {
-        if (filename == null) {
+        if (filename == null || filename.equals("")) {
             throw new IllegalArgumentException("Input file name is not indicated.");
         }
         File file = new File(filename);
@@ -41,7 +40,7 @@ public class InterfileIO {
     public static long checkFileLinesNumber(BufferedReader reader, long linesNumber) {
         // Ref. https://stackoverflow.com/a/4901577
         try {
-            reader.mark(BUFFER_SIZE);
+            reader.mark(Configs.BUFFER_SIZE);
             long actualLinesNumber = reader.lines().count();
             if (linesNumber > actualLinesNumber) {
                 throw new IllegalArgumentException("User defined lines number is bigger than the actual number");
