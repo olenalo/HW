@@ -17,4 +17,12 @@ public class Utils {
         }
     }
 
+    public static long getUserDefinedLinesNumber() {
+        long linesNumber;
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Please enter the number of lines:");
+            linesNumber = (long) scanner.nextInt();
+        }
+        return linesNumber;
+    }
 }
