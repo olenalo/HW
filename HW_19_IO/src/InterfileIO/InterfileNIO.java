@@ -6,18 +6,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 public class InterfileNIO {
-
-    public static long getLinesNumber() {
-        long linesNumber;
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Please enter the number of lines:");
-            linesNumber = (long) scanner.nextInt();
-        }
-        return linesNumber;
-    }
 
     public static void checkFile(String filename) {
         if (filename.equals("") || filename == null) {
@@ -29,8 +19,7 @@ public class InterfileNIO {
     }
 
     public static void readWriteInterfile(String inputFileName, String outputFileName, long linesNumber) {
-        // FIXME work on bigger files (channel is bigger than buffer's capacity)
-        // FIXME case with max number of lines (equal to file lines number)
+        // FIXME case with max number of lines (bytes number being equal to buffer capacity)
 
         checkFile(inputFileName);
         // TODO check lines number
@@ -43,22 +32,22 @@ public class InterfileNIO {
             int bytesRead = fromChannel.read(buf);
             int linesCount = 0;
 
-            while (bytesRead != -1) {
-                buf.flip();  // make buffer ready for read
+            while (bytesRead != -1 && linesCount < linesNumber) {
+                buf.flip();  // make buffer ready for reading
                 while (buf.hasRemaining() && linesCount < linesNumber) {
                     byte[] contentBytes = buf.array();
                     for (int i = 0; i < contentBytes.length; i++) {
                         if (contentBytes[i] == '\n' && linesCount < linesNumber) {
-                            byte[] fileAsByteArray = new byte[i + 1];
-                            System.arraycopy(contentBytes, 0, fileAsByteArray, 0, i + 1);
-                            // FIXME do not write '\n'
+                            byte[] fileAsByteArray = new byte[i];
+                            System.arraycopy(contentBytes, 0, fileAsByteArray, 0, i);
+                            // FIXME do not write neither '\n' nor '\r'
                             Files.write(Paths.get(outputFileName), fileAsByteArray);
                             linesCount++;
                         }
-                        // TODO else write remaining bytes
+                        // TODO else keep remaining bytes
                     }
                 }
-                buf.clear(); // make buffer ready for writing
+                buf.compact(); // make buffer ready for writing
                 bytesRead = fromChannel.read(buf);
             }
             copyFrom.close();
@@ -68,7 +57,8 @@ public class InterfileNIO {
     }
 
     public static void main(String[] args) {
-        long linesNumber = getLinesNumber();
+        System.out.println("Checking NIO.");
+        long linesNumber = Utils.getUserDefinedLinesNumber();
         // linesNumber = 5;
         readWriteInterfile(Configs.INPUT_FILE, Configs.OUTPUT_FILE, linesNumber);
     }

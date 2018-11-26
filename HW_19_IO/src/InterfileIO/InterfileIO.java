@@ -21,9 +21,8 @@ public class InterfileIO {
             throw new IllegalArgumentException("Input file is not found.");
         }
         StringBuilder content = new StringBuilder();
-        long checkedLinesNumber = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            checkedLinesNumber = checkFileLinesNumber(reader, linesNumber);
+            long checkedLinesNumber = checkFileLinesNumber(reader, linesNumber);
             String contentString;
             int linesCount = 1;
             while ((contentString = reader.readLine()) != null && linesCount <= checkedLinesNumber) {
@@ -56,15 +55,21 @@ public class InterfileIO {
     }
 
     public static void doAll(String inputFileName, String outputFileName, long linesNumber) {
+        // FIXME do not write neither '\n' nor '\r'
         String content = read(inputFileName, linesNumber);
         write(content, outputFileName);
     }
 
     public static void main(String[] args) {
+        System.out.println("Checking IO.");
+        /*
         String[] userDefinedData = Utils.getUserDefinedData();
-        String inputFile = userDefinedData[0];  // hw19_custom_data_input.txt
-        String outputFile = userDefinedData[1]; // hw19_custom_data_output.txt
+        String inputFile = userDefinedData[0];
+        String outputFile = userDefinedData[1];
         long linesNumber = Long.valueOf(userDefinedData[2]);
+        */
+
+        long linesNumber = Utils.getUserDefinedLinesNumber();
 
         /*
         String inputFile = "hw19_custom_data_input.txt";
@@ -72,7 +77,8 @@ public class InterfileIO {
         int linesNumber = 1;
         */
 
-        doAll(inputFile, outputFile, linesNumber);
+        // doAll(inputFile, outputFile, linesNumber);
+        doAll(Configs.INPUT_FILE, Configs.OUTPUT_FILE, linesNumber);
 
         // TODO: move this to unit tests once implemented
         // Case: input file not indicated
@@ -91,7 +97,7 @@ public class InterfileIO {
 
         // Case: number of lines bigger than input file's number of lines
         try {
-            doAll(Configs.INPUT_FILE, Configs.OUTPUT_FILE, 10);
+            doAll(Configs.INPUT_FILE, Configs.OUTPUT_FILE, 11);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
