@@ -111,4 +111,12 @@ public class Employee {
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                "}\n";
+    }
 }

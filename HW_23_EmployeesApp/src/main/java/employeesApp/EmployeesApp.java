@@ -28,4 +28,8 @@ public class EmployeesApp {
         return emplDao.getAll();
     }
 
+    public static List<Employee> getAllOrderedEmployees(String orderBy) {
+        return emplDao.getAllOrdered(orderBy);
+    }
+
 }

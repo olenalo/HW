@@ -25,10 +25,9 @@ public class EmployeeDao implements Dao<Employee> {
     public List<Employee> getAll() {
         String sql = "select * from employees";  // TODO fetch other data (title, salary)
         List<Employee> employees = new ArrayList<>();
-        try (Connection connection = DBCPDataSource.getInstance().getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)
-        ) {
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 employees.add(new Employee(
                         rs.getString(1),
@@ -46,14 +45,12 @@ public class EmployeeDao implements Dao<Employee> {
 
     @Override
     public List<Employee> getAllOrdered(String orderBy) {
-        // TODO consider adding checks of `orderBy`
-        // TODO use prepared statement here
-        String sql = "select * from employees order by " + orderBy;
+        String sql = "select * from employees order by ?";
         List<Employee> employees = new ArrayList<>();
-        try (Connection connection = DBCPDataSource.getInstance().getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)
-        ) {
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, orderBy);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 employees.add(new Employee(
                         rs.getString(1),

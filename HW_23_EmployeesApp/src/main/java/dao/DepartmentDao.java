@@ -24,10 +24,9 @@ public class DepartmentDao implements Dao<Department> {
     public List<Department> getAll() {
         String sql = "select * from departments";
         List<Department> departments = new ArrayList<>();
-        try (Connection connection = DBCPDataSource.getInstance().getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)
-        ) {
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 departments.add(new Department(rs.getString(1), rs.getString(2)));
             }
@@ -39,14 +38,12 @@ public class DepartmentDao implements Dao<Department> {
 
     @Override
     public List<Department> getAllOrdered(String orderBy) {
-        // TODO consider adding checks of `orderBy`
-        // TODO use prepared statement here
-        String sql = "select * from departments order by " + orderBy;
+        String sql = "select * from departments order by ?";
         List<Department> departments = new ArrayList<>();
-        try (Connection connection = DBCPDataSource.getInstance().getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)
-        ) {
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, orderBy);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 departments.add(new Department(rs.getString(1), rs.getString(2)));
             }
