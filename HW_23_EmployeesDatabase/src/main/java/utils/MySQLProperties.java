@@ -1,23 +1,25 @@
-package homework;
+package utils;
+
+import configs.Configs;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class MySQLPropertyValues {
+public class MySQLProperties {
 
-    private static MySQLPropertyValues instance;
+    private static MySQLProperties instance;
     private String user;
     private String url;
     private String password;
 
-    private MySQLPropertyValues() {
+    private MySQLProperties() {
         setPropValues();
     }
 
-    public static MySQLPropertyValues getInstance() {
+    public static MySQLProperties getInstance() {
         if (instance == null) {
-            instance = new MySQLPropertyValues();
+            instance = new MySQLProperties();
         }
         return instance;
     }

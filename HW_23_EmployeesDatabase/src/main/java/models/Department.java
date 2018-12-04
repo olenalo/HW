@@ -1,4 +1,4 @@
-package homework;
+package models;
 
 public class Department {
     String id;

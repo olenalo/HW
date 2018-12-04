@@ -1,4 +1,5 @@
-package homework;
+import models.Department;
+import utils.MySQLProperties;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 public class App {
 
     public static void main(String[] args) {
-        MySQLPropertyValues mySqlProps = MySQLPropertyValues.getInstance();
+        MySQLProperties mySqlProps = MySQLProperties.getInstance();
 
         List<Department> departments = new ArrayList<>();
         final String sql = "select * from departments order by dept_name";
