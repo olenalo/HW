@@ -17,10 +17,15 @@ public class Demo {
         */
 
         System.out.println("#1. All employees, indicating total salary and title: ");
-        EmployeesPrintUtils.printListSalaryTitle(EmployeesApp.getAllEmployeesWithTitleTotalSalary());
+        //EmployeesPrintUtils.printListSalaryTitle(EmployeesApp.getAllEmployeesWithTitleTotalSalary());
 
         System.out.println("#2. Employees hired in specific year, indicating department and hire date: ");
-        EmployeesPrintUtils.printListDeptHiredSpecifiedYear(EmployeesApp.getEmployeesHiredInYear(2000)); // TODO user input
+        //EmployeesPrintUtils.printListDeptHiredSpecifiedYear(EmployeesApp.getEmployeesHiredInYear(2000)); // TODO user input
+
+        System.out.println("#3. Raise salaries for selected employees and then perform #1 again: ");
+        // TODO do with a stored procedure e.g. https://stackoverflow.com/a/24799562
+        EmployeesApp.updateEmployeesWithSalaryBySecificValue(40000, 1000); // TODO user input
+        EmployeesPrintUtils.printListSalaryTitle(EmployeesApp.getAllEmployeesWithTitleTotalSalary());
 
     }
 

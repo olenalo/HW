@@ -109,6 +109,24 @@ public class EmployeeDao implements Dao<Employee> {
         return employees;
     }
 
+    public void updateEmployeesWithSalaryBySpecificValue(double filterTotalSalaryEarned,
+                                                                   double salaryRaiseValue) {
+        // Note: in the query below we use PK to avoid 1175 error, ref.: https://stackoverflow.com/a/28316067
+        String sql = "update employees.salaries\n" +
+                "inner join employees.employees on employees.salaries.emp_no=employees.employees.emp_no\n" +
+                "set employees.salaries.salary=employees.salaries.salary+? \n" +
+                "where employees.salaries.salary >= ? and employees.salaries.to_date='9999-01-01' \n" +
+                "and employees.salaries.emp_no <> 0; ";  // FIXME fix the query (one gets a raise and the next one gets reduction)
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDouble(1, salaryRaiseValue);
+            statement.setDouble(2, filterTotalSalaryEarned);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void save(Employee employee) {

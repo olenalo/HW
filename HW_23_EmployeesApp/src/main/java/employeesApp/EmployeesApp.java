@@ -40,6 +40,10 @@ public class EmployeesApp {
         return emplDao.getEmployeesHiredInYear(year);
     }
 
+    public static List<Employee> updateEmployeesWithSalaryBySecificValue(double filterTotalSalaryEarned,
+                                                                         double salaryRaiseValue) {
+        return emplDao.updateEmployeesWithSalaryBySpecificValue(filterTotalSalaryEarned, salaryRaiseValue);
+    }
 
     public static List<Employee> get() {
         return emplDao.getAllWithTitleTotalSalary();
