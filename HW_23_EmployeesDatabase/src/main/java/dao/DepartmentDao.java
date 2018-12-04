@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class DepartmentDao implements Dao<Department> {
-    private List<Department> departments = new ArrayList<>();
     private MySQLProperties mySqlProps;
 
     public DepartmentDao() {
@@ -25,9 +24,22 @@ public class DepartmentDao implements Dao<Department> {
 
     @Override
     public List<Department> getAll() {
-        // TODO implement
-        // return departments;
-        throw new UnsupportedOperationException();
+        String sql = "select * from departments";
+        List<Department> departments = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(
+                mySqlProps.getUrl(),
+                mySqlProps.getUser(),
+                mySqlProps.getPassword());
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(sql)
+        ) {
+            while (rs.next()) {
+                departments.add(new Department(rs.getString(1), rs.getString(2)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return departments;
     }
 
     @Override
@@ -35,6 +47,7 @@ public class DepartmentDao implements Dao<Department> {
         // TODO consider adding checks of `orderBy`
         // TODO use prepared statement here
         String sql = "select * from departments order by " + orderBy;
+        List<Department> departments = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(
                 mySqlProps.getUrl(),
                 mySqlProps.getUser(),
