@@ -1,7 +1,13 @@
 package models;
 
 public class Department {
+    String name;
     String id;
+
+    public Department(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @Override
     public String toString() {
@@ -19,11 +25,7 @@ public class Department {
         return name;
     }
 
-    public Department(String id, String name) {
-
-        this.id = id;
+    public void setName(String name) {
         this.name = name;
     }
-
-    String name;
 }
