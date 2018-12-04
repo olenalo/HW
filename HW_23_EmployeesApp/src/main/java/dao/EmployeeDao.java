@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class EmployeeDao implements Dao<Employee> {
-    // TODO: use the same constructor for all READ queries, and then setters
 
     public EmployeeDao() {
     }
-
 
     @Override
     public Employee get(long id) {
