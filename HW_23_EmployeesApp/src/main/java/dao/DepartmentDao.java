@@ -25,8 +25,8 @@ public class DepartmentDao implements Dao<Department> {
         String sql = "select * from departments";
         List<Department> departments = new ArrayList<>();
         try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 departments.add(new Department(rs.getString(1), rs.getString(2)));
             }
