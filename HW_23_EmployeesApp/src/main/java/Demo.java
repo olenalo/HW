@@ -24,7 +24,7 @@ public class Demo {
 
         System.out.println("#3. Raise salaries for selected employees and then perform #1 again: ");
         // TODO do with a stored procedure e.g. https://stackoverflow.com/a/24799562
-        EmployeesApp.updateEmployeesWithSalaryBySecificValue(40000, 1000); // TODO user input
+        EmployeesApp.updateEmployeesWithSalaryBySecificValue(80000, 1000); // TODO user input
         EmployeesPrintUtils.printListSalaryTitle(EmployeesApp.getAllEmployeesWithTitleTotalSalary());
 
     }
