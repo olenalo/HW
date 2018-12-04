@@ -6,10 +6,16 @@ import java.util.List;
 
 public class EmployeesPrintUtils {
 
-    public static void printListToStringSalaryTitle(List<Employee> employees) {
-        System.out.println("#1. All employees with total salary and title: ");
+    public static void printListSalaryTitle(List<Employee> employees) {
         for (Employee employee : employees) {
             System.out.println(employee.toStringSalaryTitle());
         }
     }
+
+    public static void printListDeptHiredSpecifiedYear(List<Employee> employees) {
+        for (Employee employee : employees) {
+            System.out.println(employee.toStringHireDateDept());
+        }
+    }
+
 }

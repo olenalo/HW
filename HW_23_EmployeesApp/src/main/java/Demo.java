@@ -16,7 +16,11 @@ public class Demo {
         System.out.println("All employees ordered: " + EmployeesApp.getAllOrderedEmployees("last_name"));
         */
 
-        EmployeesPrintUtils.printListToStringSalaryTitle(EmployeesApp.getAllWithTitleTotalSalary());
+        System.out.println("#1. All employees, indicating total salary and title: ");
+        EmployeesPrintUtils.printListSalaryTitle(EmployeesApp.getAllEmployeesWithTitleTotalSalary());
+
+        System.out.println("#2. Employees hired in specific year, indicating department and hire date: ");
+        EmployeesPrintUtils.printListDeptHiredSpecifiedYear(EmployeesApp.getEmployeesHiredInYear(2000)); // TODO user input
 
     }
 

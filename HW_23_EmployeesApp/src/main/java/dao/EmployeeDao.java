@@ -88,6 +88,33 @@ public class EmployeeDao implements Dao<Employee> {
         return employees;
     }
 
+    public List<Employee> getEmployeesHiredInYear(int year) {
+        String sql = "select first_name, last_name, dept_name, hire_date from employees.employees\n" +
+                "inner join employees.dept_emp on employees.employees.emp_no=employees.dept_emp.emp_no\n" +
+                "inner join employees.departments on employees.departments.dept_no=employees.dept_emp.dept_no\n" +
+                "where YEAR(employees.hire_date)=?";
+        List<Employee> employees = new ArrayList<>();
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, year);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                employees.add(new Employee(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDate(4)));
+            }
+            if (employees.isEmpty()) {
+                System.out.println("No such employees found in the database.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employees;
+    }
+
+
     @Override
     public void save(Employee employee) {
         // TODO implement

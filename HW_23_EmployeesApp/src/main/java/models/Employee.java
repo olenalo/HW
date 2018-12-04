@@ -14,6 +14,7 @@ public class Employee {
 
     private double totalSalaryEarned;
     private String title;
+    private String department;
 
     // TODO: use static constructor pattern
     // TODO: use builder pattern
@@ -41,6 +42,16 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
+    public Employee(String firstName,
+                    String lastName,
+                    String department,
+                    Date hireDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.hireDate = hireDate;
+    }
+
     public Employee(String id,
                     Date birthDate,
                     String firstName,
@@ -48,7 +59,8 @@ public class Employee {
                     String gender,
                     Date hireDate,
                     double totalSalaryEarned,
-                    String title) {
+                    String title,
+                    String department) {
         this.id = id;
         this.birthDate = birthDate;
         this.firstName = firstName;
@@ -57,6 +69,7 @@ public class Employee {
         this.hireDate = hireDate;
         this.totalSalaryEarned = totalSalaryEarned;
         this.title = title;
+        this.department = department;
     }
 
     public String getId() {
@@ -123,6 +136,14 @@ public class Employee {
         this.birthDate = birthDate;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -139,4 +160,15 @@ public class Employee {
                 ", total salary earned='" + totalSalaryEarned + '\'' +
                 "}\n";
     }
+
+    public String toStringHireDateDept() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", department='" + department + '\'' +
+                ", hire date='" + hireDate + '\'' +
+                "}\n";
+    }
+
+
 }
