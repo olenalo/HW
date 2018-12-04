@@ -13,6 +13,7 @@ public class Employee {
     private Date hireDate;
 
     private double totalSalaryEarned;
+    private double currentSalary;  // `to_date` is '9999-01-01'
     private String title;
     private String department; // TODO could be of `Department` type
 
@@ -92,6 +93,14 @@ public class Employee {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public double getCurrentSalary() {
+        return currentSalary;
+    }
+
+    public void setCurrentSalary(double currentSalary) {
+        this.currentSalary = currentSalary;
     }
 
     @Override

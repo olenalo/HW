@@ -109,6 +109,29 @@ public class EmployeeDao implements Dao<Employee> {
         return employees;
     }
 
+    public List<Employee> getSelectedWithTitleCurrentSalary(double filterTotalSalaryEarned) {
+        String sql = "select first_name, last_name, title, salary, employees.salaries.to_date from employees.employees\n" +
+                "inner join employees.salaries on employees.employees.emp_no=employees.salaries.emp_no\n" +
+                "inner join employees.titles on employees.employees.emp_no=employees.titles.emp_no\n" +
+                "where employees.salaries.salary >= ? and employees.salaries.to_date='9999-01-01'";
+        List<Employee> employees = new ArrayList<>();
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDouble(1, filterTotalSalaryEarned);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Employee employee = new Employee(rs.getString(1), rs.getString(2));
+                employee.setTitle(rs.getString(3));
+                employee.setTotalSalaryEarned(rs.getDouble(4));
+                employees.add(employee);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employees;
+    }
+
+
     public void updateEmployeesWithSalaryBySpecificValue(double filterTotalSalaryEarned,
                                                          double salaryRaiseValue) {
         // Note: in the query below we use PK to avoid 1175 error, ref.: https://stackoverflow.com/a/28316067
