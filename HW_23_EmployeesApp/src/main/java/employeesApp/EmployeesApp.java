@@ -32,4 +32,8 @@ public class EmployeesApp {
         return emplDao.getAllOrdered(orderBy);
     }
 
+    public static List<Employee> getAllWithTitleTotalSalary() {
+        return emplDao.getAllWithTitleTotalSalary();
+    }
+
 }

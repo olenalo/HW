@@ -12,10 +12,21 @@ public class Employee {
     private Date birthDate;
     private Date hireDate;
 
-    private double salary;
+    private double totalSalaryEarned;
     private String title;
 
+    // TODO: use static constructor pattern
     // TODO: use builder pattern
+    public Employee(String firstName,
+                    String lastName,
+                    String title,
+                    double totalSalaryEarned) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.title = title;
+        this.totalSalaryEarned = totalSalaryEarned;
+    }
+
     public Employee(String id,
                     Date birthDate,
                     String firstName,
@@ -36,7 +47,7 @@ public class Employee {
                     String lastName,
                     String gender,
                     Date hireDate,
-                    double salary,
+                    double totalSalaryEarned,
                     String title) {
         this.id = id;
         this.birthDate = birthDate;
@@ -44,7 +55,7 @@ public class Employee {
         this.lastName = lastName;
         this.gender = gender.equals("F") ? Gender.FEMALE : Gender.MALE;
         this.hireDate = hireDate;
-        this.salary = salary;
+        this.totalSalaryEarned = totalSalaryEarned;
         this.title = title;
     }
 
@@ -88,12 +99,12 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    public double getSalary() {
-        return salary;
+    public double getTotalSalaryEarned() {
+        return totalSalaryEarned;
     }
 
-    public void setSalary(double salary) {
-        this.salary = salary;
+    public void setTotalSalaryEarned(double totalSalaryEarned) {
+        this.totalSalaryEarned = totalSalaryEarned;
     }
 
     public String getTitle() {
@@ -117,6 +128,15 @@ public class Employee {
         return "Employee{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                "}\n";
+    }
+
+    public String toStringSalaryTitle() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", title='" + title + '\'' +
+                ", total salary earned='" + totalSalaryEarned + '\'' +
                 "}\n";
     }
 }
