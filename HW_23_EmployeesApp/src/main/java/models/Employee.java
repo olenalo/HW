@@ -14,62 +14,12 @@ public class Employee {
 
     private double totalSalaryEarned;
     private String title;
-    private String department;
-
-    // TODO: use static constructor pattern
-    // TODO: use builder pattern
-    public Employee(String firstName,
-                    String lastName,
-                    String title,
-                    double totalSalaryEarned) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.title = title;
-        this.totalSalaryEarned = totalSalaryEarned;
-    }
-
-    public Employee(String id,
-                    Date birthDate,
-                    String firstName,
-                    String lastName,
-                    String gender,
-                    Date hireDate) {
-        this.id = id;
-        this.birthDate = birthDate;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender.equals("F") ? Gender.FEMALE : Gender.MALE;
-        this.hireDate = hireDate;
-    }
+    private String department; // TODO could be of `Department` type
 
     public Employee(String firstName,
-                    String lastName,
-                    String department,
-                    Date hireDate) {
+                    String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.department = department;
-        this.hireDate = hireDate;
-    }
-
-    public Employee(String id,
-                    Date birthDate,
-                    String firstName,
-                    String lastName,
-                    String gender,
-                    Date hireDate,
-                    double totalSalaryEarned,
-                    String title,
-                    String department) {
-        this.id = id;
-        this.birthDate = birthDate;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender.equals("F") ? Gender.FEMALE : Gender.MALE;
-        this.hireDate = hireDate;
-        this.totalSalaryEarned = totalSalaryEarned;
-        this.title = title;
-        this.department = department;
     }
 
     public String getId() {
@@ -100,8 +50,8 @@ public class Employee {
         return gender;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setGender(String gender) {
+        this.gender = gender.equals("F") ? Gender.FEMALE : Gender.MALE;
     }
 
     public Date getHireDate() {

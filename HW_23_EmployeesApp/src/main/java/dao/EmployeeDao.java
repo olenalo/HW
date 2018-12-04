@@ -1,6 +1,5 @@
 package dao;
 
-import models.Department;
 import models.Employee;
 import utils.DBCPDataSource;
 
@@ -10,9 +9,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class EmployeeDao implements Dao<Employee> {
+    // TODO: use the same constructor for all READ queries, and then setters
 
     public EmployeeDao() {
     }
+
 
     @Override
     public Employee get(long id) {
@@ -26,16 +27,15 @@ public class EmployeeDao implements Dao<Employee> {
         String sql = "select * from employees";  // TODO fetch other data (title, salary)
         List<Employee> employees = new ArrayList<>();
         try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
-                employees.add(new Employee(
-                        rs.getString(1),
-                        rs.getDate(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getDate(6)));
+                Employee employee = new Employee(rs.getString(3), rs.getString(4));
+                employee.setBirthDate(rs.getDate(2));
+                employee.setId(rs.getString(1));
+                employee.setGender(rs.getString(5));
+                employee.setHireDate(rs.getDate(6));
+                employees.add(employee);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,13 +52,12 @@ public class EmployeeDao implements Dao<Employee> {
             statement.setString(1, orderBy);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                employees.add(new Employee(
-                        rs.getString(1),
-                        rs.getDate(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getDate(6)));
+                Employee employee = new Employee(rs.getString(3), rs.getString(4));
+                employee.setBirthDate(rs.getDate(2));
+                employee.setId(rs.getString(1));
+                employee.setGender(rs.getString(5));
+                employee.setHireDate(rs.getDate(6));
+                employees.add(employee);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,11 +75,10 @@ public class EmployeeDao implements Dao<Employee> {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                employees.add(new Employee(
-                        rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getDouble(4)));
+                Employee employee = new Employee(rs.getString(1), rs.getString(2));
+                employee.setTitle(rs.getString(3));
+                employee.setTotalSalaryEarned(rs.getDouble(4));
+                employees.add(employee);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,11 +97,10 @@ public class EmployeeDao implements Dao<Employee> {
             statement.setInt(1, year);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                employees.add(new Employee(
-                        rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getDate(4)));
+                Employee employee = new Employee(rs.getString(1), rs.getString(2));
+                employee.setDepartment(rs.getString(3));
+                employee.setHireDate(rs.getDate(4));
+                employees.add(employee);
             }
             if (employees.isEmpty()) {
                 System.out.println("No such employees found in the database.");
