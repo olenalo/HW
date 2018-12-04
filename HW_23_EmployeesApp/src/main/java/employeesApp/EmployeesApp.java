@@ -1,7 +1,9 @@
 package employeesApp;
 
 import dao.DepartmentDao;
+import dao.EmployeeDao;
 import models.Department;
+import models.Employee;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
  */
 public class EmployeesApp {
     private static DepartmentDao deptDao = new DepartmentDao();
+    private static EmployeeDao emplDao = new EmployeeDao();
 
     public static List<Department> getAllDepartments() {
         return deptDao.getAll();
@@ -19,6 +22,10 @@ public class EmployeesApp {
 
     public static List<Department> getAllOrderedDepartments(String orderBy) {
         return deptDao.getAllOrdered(orderBy);
+    }
+
+    public static List<Employee> getAllEmployees() {
+        return emplDao.getAll();
     }
 
 }

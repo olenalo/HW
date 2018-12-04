@@ -27,10 +27,10 @@ public class MySQLProperties {
     private void setPropValues() {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(Configs.mySqlPropFileName)) {
             Properties properties = new Properties();
-            if (inputStream != null) {
-                properties.load(inputStream);
-            } else {
+            if (inputStream == null) {
                 throw new FileNotFoundException("Property file '" + Configs.mySqlPropFileName + "' is not found.");
+            } else {
+                properties.load(inputStream);
             }
             this.user = properties.getProperty("user");
             this.url = properties.getProperty("url");
