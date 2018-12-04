@@ -41,7 +41,7 @@ public class EmployeesApp {
     }
 
     public static void updateEmployeesWithSalaryBySecificValue(double filterTotalSalaryEarned,
-                                                                         double salaryRaiseValue) {
+                                                               double salaryRaiseValue) {
         emplDao.updateEmployeesWithSalaryBySpecificValue(filterTotalSalaryEarned, salaryRaiseValue);
     }
 
