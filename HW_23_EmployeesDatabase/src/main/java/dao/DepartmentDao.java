@@ -1,7 +1,7 @@
 package dao;
 
 import models.Department;
-import utils.MySQLProperties;
+import utils.DBCPDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class DepartmentDao implements Dao<Department> {
-    private MySQLProperties mySqlProps;
 
     public DepartmentDao() {
-        mySqlProps = MySQLProperties.getInstance();
     }
 
     @Override
@@ -26,10 +24,7 @@ public class DepartmentDao implements Dao<Department> {
     public List<Department> getAll() {
         String sql = "select * from departments";
         List<Department> departments = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(
-                mySqlProps.getUrl(),
-                mySqlProps.getUser(),
-                mySqlProps.getPassword());
+        try (Connection connection = DBCPDataSource.getInstance().getConnection();
              Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(sql)
         ) {
@@ -48,10 +43,7 @@ public class DepartmentDao implements Dao<Department> {
         // TODO use prepared statement here
         String sql = "select * from departments order by " + orderBy;
         List<Department> departments = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(
-                mySqlProps.getUrl(),
-                mySqlProps.getUser(),
-                mySqlProps.getPassword());
+        try (Connection connection = DBCPDataSource.getInstance().getConnection();
              Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(sql)
         ) {
