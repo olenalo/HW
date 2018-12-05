@@ -6,3 +6,4 @@ DB Schema modelling:
 
 ![Schema](media/HW24_University_DB_Schema.jpg)
 
+Editable version: [Draw.io schema](https://www.draw.io/#G1LahKoBsn8t3SkdzTJJRNGqKZmLlZ6oj-)
