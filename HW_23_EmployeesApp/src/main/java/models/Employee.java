@@ -12,12 +12,15 @@ public class Employee {
     private Date birthDate;
     private Date hireDate;
 
-    private double totalSalaryEarned;
+    private double totalSalary;
+    private double currentSalary;  // `to_date` is '9999-01-01'
     private String title;
     private String department; // TODO could be of `Department` type
 
-    public Employee(String firstName,
+    public Employee(String id,
+                    String firstName,
                     String lastName) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -62,12 +65,12 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    public double getTotalSalaryEarned() {
-        return totalSalaryEarned;
+    public double getTotalSalary() {
+        return totalSalary;
     }
 
-    public void setTotalSalaryEarned(double totalSalaryEarned) {
-        this.totalSalaryEarned = totalSalaryEarned;
+    public void setTotalSalary(double totalSalary) {
+        this.totalSalary = totalSalary;
     }
 
     public String getTitle() {
@@ -94,6 +97,14 @@ public class Employee {
         this.department = department;
     }
 
+    public double getCurrentSalary() {
+        return currentSalary;
+    }
+
+    public void setCurrentSalary(double currentSalary) {
+        this.currentSalary = currentSalary;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -102,12 +113,21 @@ public class Employee {
                 "}\n";
     }
 
-    public String toStringSalaryTitle() {
+    public String toStringTotalSalaryTitle() {
         return "Employee{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", title='" + title + '\'' +
-                ", total salary earned='" + totalSalaryEarned + '\'' +
+                ", total salary='" + totalSalary + '\'' +
+                "}\n";
+    }
+
+    public String toStringCurrentSalaryTitle() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", title='" + title + '\'' +
+                ", current salary ='" + currentSalary + '\'' +
                 "}\n";
     }
 
@@ -119,6 +139,4 @@ public class Employee {
                 ", hire date='" + hireDate + '\'' +
                 "}\n";
     }
-
-
 }

@@ -40,9 +40,17 @@ public class EmployeesApp {
         return emplDao.getEmployeesHiredInYear(year);
     }
 
+    public static List<Employee> getAllEmployeesCurrentSalary() {
+        return emplDao.getAllWithTitleCurrentSalary();
+    }
 
-    public static List<Employee> get() {
-        return emplDao.getAllWithTitleTotalSalary();
+    public static void updateEmployeesWithSalaryBySpecificValue(double filterTotalSalaryEarned,
+                                                                double salaryRaiseValue) {
+        List<Employee> selectedEmployees = emplDao.getEmployeesSalaryThreshold(filterTotalSalaryEarned);
+        // It takes a long, long time... TODO consider speeding up
+        for (Employee employee : selectedEmployees) {
+            emplDao.updateEmployeeRaiseCurrentSalary(employee.getId(), salaryRaiseValue);
+        }
     }
 
 }
