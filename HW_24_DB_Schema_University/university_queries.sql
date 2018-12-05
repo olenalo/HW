@@ -14,11 +14,11 @@ create table university.faculties (
 
 create table university.instructors (
     instructor_id int(11) not null auto_increment,
-	first_name varchar(20) not null,
+    first_name varchar(20) not null,
     last_name varchar(20) not null,
-	dob date,
+    dob date,
     status_id int(11),
-	faculty_id int(11),
+    faculty_id int(11),
     course_id int(11),
     primary key (instructor_id),
     foreign key (status_id) references university.statuses(status_id),
@@ -51,9 +51,9 @@ create table university.students (
     last_name varchar(20) not null,
     dob date not null,
     country varchar(20),
-	current_year int(4),
+    current_year int(4),
     entry_year int(4),
-	faculty_id int(11),
+    faculty_id int(11),
     # course_id int(11),
     primary key (student_id),
     foreign key (faculty_id) references university.faculties(faculty_id)
