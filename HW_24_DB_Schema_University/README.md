@@ -6,7 +6,7 @@ Auto-generated DB Schema:
 
 ![Schema](resources/university_auto_schema.png)
 
-DB Schema modelling: 
+DB Schema modelling (TODO is resolved, see the autoschema with pivot tables above): 
 
 ![Schema](resources/university_schema.jpg)
 

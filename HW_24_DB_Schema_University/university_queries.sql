@@ -28,21 +28,21 @@ create table university.instructors (
 create table university.courses (
     course_id int(11) not null auto_increment,
     title varchar(20) not null,
-    instructor_id int(11),
+    # instructor_id int(11),
     faculty_id int(11),
     primary key (course_id),
-    foreign key (faculty_id) references university.faculties(faculty_id),
-    foreign key (instructor_id) references university.instructors(instructor_id)
+    foreign key (faculty_id) references university.faculties(faculty_id)
+    # foreign key (instructor_id) references university.instructors(instructor_id)
 );
 
 create table university.exams (
     exam_id int(11) not null auto_increment,
     course_id int(11) not null,
-    instructor_id int(11),
+    # instructor_id int(11),
     date_held date not null,
     primary key (exam_id),
-    foreign key (course_id) references university.courses(course_id),
-    foreign key (instructor_id) references university.instructors(instructor_id)
+    foreign key (course_id) references university.courses(course_id)
+    # foreign key (instructor_id) references university.instructors(instructor_id)
 );
 
 create table university.students (
@@ -54,10 +54,10 @@ create table university.students (
 	current_year int(4),
     entry_year int(4),
 	faculty_id int(11),
-    course_id int(11),
+    # course_id int(11),
     primary key (student_id),
-    foreign key (faculty_id) references university.faculties(faculty_id),
-    foreign key (course_id) references university.courses(course_id)
+    foreign key (faculty_id) references university.faculties(faculty_id)
+    # foreign key (course_id) references university.courses(course_id)
 );
 
 create table university.grades (
@@ -72,6 +72,37 @@ create table university.grades (
     foreign key (student_id) references university.students(student_id),
     foreign key (exam_id) references university.exams(exam_id)
 );
+
+# Create intermediate (pivot) tables
+
+create table university.students_courses (
+    entry_id int(11) not null auto_increment,
+    course_id int(11) not null,
+    student_id int(11) not null,
+    primary key (entry_id),
+    foreign key (student_id) references university.students(student_id),
+    foreign key (course_id) references university.courses(course_id)
+);
+
+create table university.instructors_courses (
+    entry_id int(11) not null auto_increment,
+    course_id int(11) not null,
+    instructor_id int(11) not null,
+    primary key (entry_id),
+    foreign key (instructor_id) references university.instructors(instructor_id),
+    foreign key (course_id) references university.courses(course_id)
+);
+
+
+create table university.instructors_exams (
+    entry_id int(11) not null auto_increment,
+    instructor_id int(11) not null,
+    exam_id int(11),
+    primary key (entry_id),   
+    foreign key (instructor_id) references university.instructors(instructor_id),
+    foreign key (exam_id) references university.exams(exam_id)
+);
+
 
 # describe university.exams;
 # drop database university;
