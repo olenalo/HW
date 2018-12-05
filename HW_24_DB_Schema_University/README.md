@@ -2,4 +2,7 @@ These MySQL queries allow for creating `university` database and tables with reg
 
 Also for reference: [Entry Exams System](https://github.com/olenalo/HW/tree/5ec5da5a859e4005b002a388d1a23b3d067d9cdd/HW_06_Entry%20Exams%2C%20Tower%20of%20Hanoi%2C%20Clocks/EntryExamsSystem/src/com/company) (HW No.06).
 
-DB Schema modelling: ![Schema](media/HW24_University_DB_Schema.jpg)
+DB Schema modelling: 
+
+![Schema](media/HW24_University_DB_Schema.jpg)
+
