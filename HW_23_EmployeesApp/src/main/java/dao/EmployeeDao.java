@@ -64,7 +64,7 @@ public class EmployeeDao implements Dao<Employee> {
     }
 
     public List<Employee> getAllWithTitleTotalSalary() {
-        String sql = "select first_name, last_name, title, salary from employees\n" +
+        String sql = "select first_name, last_name, title, sum(salary) from employees\n" +
                 "inner join salaries on employees.emp_no=salaries.emp_no\n" +
                 "inner join titles on employees.emp_no=titles.emp_no\n" +
                 "group by employees.emp_no";
@@ -132,7 +132,7 @@ public class EmployeeDao implements Dao<Employee> {
     }
 
 
-    public void updateEmployeesWithSalaryBySpecificValue(double filterTotalSalaryEarned,
+    public void updateEmployeesWithSalaryBySpecificValue(double totalSalaryEarnedThreshold,
                                                          double salaryRaiseValue) {
         // Note: in the query below we use PK to avoid 1175 error, ref.: https://stackoverflow.com/a/28316067
         String sql = "update employees.salaries\n" +
@@ -143,7 +143,7 @@ public class EmployeeDao implements Dao<Employee> {
         try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDouble(1, salaryRaiseValue);
-            statement.setDouble(2, filterTotalSalaryEarned);
+            statement.setDouble(2, totalSalaryEarnedThreshold);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
