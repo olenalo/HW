@@ -66,16 +66,16 @@ public class Graph {
             }
             // TODO add path as well
             this.nodes.get(nextNodeIndex).setVisited(true);
-            nextNodeIndex = getClosestAvailableNode();
+            nextNodeIndex = getClosestAvailableNodeIndex();
         }
     }
 
     /**
-     * Get an unvisited node with the least distance.
+     * Get an unvisited node closest to the last visited node.
      *
      * @return index of the node.
      */
-    private int getClosestAvailableNode() {
+    private int getClosestAvailableNodeIndex() {
         int nodeIndex = 0;
         int distance = Integer.MAX_VALUE;
         for (int i = 0; i < this.nodesNumber; i++) {
