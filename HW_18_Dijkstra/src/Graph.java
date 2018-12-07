@@ -70,7 +70,7 @@ public class Graph {
     }
 
     /**
-     * Get an unvisited node closest to the last visited node.
+     * Get an unvisited node closest to the source.
      *
      * @return index of the node.
      */
