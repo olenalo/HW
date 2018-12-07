@@ -19,7 +19,7 @@ public class Main {
         System.out.println("The graph itself: \n" + graph);
         System.out.println("-----------");
 
-        graph.calculateShortestPathsToSourceByDijkstraAlgo();
-        System.out.println(graph.getShortestPathsToSourceDescription());
+        graph.calculateShortestPathsFromSourceByDijkstraAlgo();
+        System.out.println(graph.getShortestPathFromSourceDescription());
     }
 }

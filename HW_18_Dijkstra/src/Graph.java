@@ -24,12 +24,12 @@ public class Graph {
         StringBuilder repr = new StringBuilder();
         for (Edge edge : this.edges) {
             repr.append("It takes ")
-                .append(edge.getLength())
-                .append(" units from the node #")
-                .append(edge.getFromNodeIndex())
-                .append(" to the node #")
-                .append(edge.getToNodeIndex())
-                .append("\n");
+                    .append(edge.getLength())
+                    .append(" units from the node #")
+                    .append(edge.getFromNodeIndex())
+                    .append(" to the node #")
+                    .append(edge.getToNodeIndex())
+                    .append("\n");
         }
         return repr.toString();
     }
@@ -48,18 +48,18 @@ public class Graph {
         return nodesNumber;
     }
 
-    public void calculateShortestPathsToSourceByDijkstraAlgo() {
+    public void calculateShortestPathsFromSourceByDijkstraAlgo() {
         // Ref.: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-        this.nodes.get(0).setDistanceToSource(0); // distance to itself
+        this.nodes.get(0).setDistanceFromSource(0); // distance to itself
         int nextNodeIndex = 0;
         for (Node node : this.nodes) {
             ArrayList<Edge> edges = this.nodes.get(nextNodeIndex).getEdges();
             for (Edge edge : edges) {
                 int neighborNodeIndex = edge.getNeighborNodeIndex(nextNodeIndex);
                 if (!this.nodes.get(neighborNodeIndex).isVisited()) {
-                    int cost = this.nodes.get(nextNodeIndex).getDistanceToSource() + edge.getLength();
-                    if (cost < nodes.get(neighborNodeIndex).getDistanceToSource()) {
-                        this.nodes.get(neighborNodeIndex).setDistanceToSource(cost);
+                    int cost = this.nodes.get(nextNodeIndex).getDistanceFromSource() + edge.getLength();
+                    if (cost < nodes.get(neighborNodeIndex).getDistanceFromSource()) {
+                        this.nodes.get(neighborNodeIndex).setDistanceFromSource(cost);
                     }
                 }
             }
@@ -78,7 +78,7 @@ public class Graph {
         int nodeIndex = 0;
         int distance = Integer.MAX_VALUE;
         for (int i = 0; i < this.nodesNumber; i++) {
-            int currentDistance = this.nodes.get(i).getDistanceToSource();
+            int currentDistance = this.nodes.get(i).getDistanceFromSource();
             if (!this.nodes.get(i).isVisited() && currentDistance < distance) {
                 distance = currentDistance;
                 nodeIndex = i;
@@ -87,15 +87,15 @@ public class Graph {
         return nodeIndex;
     }
 
-    public StringBuilder getShortestPathsToSourceDescription() {
+    public StringBuilder getShortestPathFromSourceDescription() {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < this.nodesNumber; i++) {
             output.append("\nThe shortest distance from the source node #0 to the node #")
                     .append(i)
                     .append(" is ")
-                    .append(nodes.get(i).getDistanceToSource())
+                    .append(nodes.get(i).getDistanceFromSource())
                     .append(". The itinerary is: ")
-                    .append(nodes.get(i).getPathToSource()); // FIXME get the itinerary as well
+                    .append(nodes.get(i).getPathFromSource()); // FIXME get the itinerary as well
         }
         return output;
     }
