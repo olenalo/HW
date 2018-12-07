@@ -22,9 +22,8 @@ public class Graph {
     @Override
     public String toString() {
         StringBuilder repr = new StringBuilder();
-        for (Edge edge: this.edges) {
-            repr
-                .append("It takes ")
+        for (Edge edge : this.edges) {
+            repr.append("It takes ")
                 .append(edge.getLength())
                 .append(" units from the node #")
                 .append(edge.getFromNodeIndex())
@@ -37,7 +36,7 @@ public class Graph {
 
     private int getNodesNumber() {
         int nodesNumber = 0;
-        for (Edge edge: this.edges) {
+        for (Edge edge : this.edges) {
             if (edge.getFromNodeIndex() > nodesNumber) {
                 nodesNumber = edge.getFromNodeIndex();
             }
@@ -53,7 +52,7 @@ public class Graph {
         // Ref.: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
         this.nodes.get(0).setDistanceToSource(0); // distance to itself
         int nextNodeIndex = 0;
-        for (Node node: this.nodes) {
+        for (Node node : this.nodes) {
             ArrayList<Edge> edges = this.nodes.get(nextNodeIndex).getEdges();
             for (Edge edge : edges) {
                 int neighborNodeIndex = edge.getNeighborNodeIndex(nextNodeIndex);
