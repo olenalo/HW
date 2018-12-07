@@ -25,6 +25,7 @@ public class Graph {
 
     @Override
     public String toString() {
+        // TODO: analyse the complete graph here (with weights); describe edges in separate method
         StringBuilder repr = new StringBuilder();
         System.out.println("Number of nodes: " + nodesNumber);
         for (Edge edge : edges) {
@@ -49,15 +50,16 @@ public class Graph {
                 nodesNumber = edge.getToNodeIndex();
             }
         }
-        nodesNumber++;
+        nodesNumber++; // TODO try to get rid of it
         return nodesNumber;
     }
 
     public void calculateShortestPathsFromSourceByDijkstraAlgo() {
         // Ref.: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-        int nextNodeIndex = SOURCE_NODE_INDEX;
-        nodes.get(nextNodeIndex).setDistanceFromSource(0); // distance to itself
+        int nextNodeIndex = SOURCE_NODE_INDEX; // TODO rename to current TODO get from edge
+        nodes.get(nextNodeIndex).setDistanceFromSource(0); // distance to self
         // for (Node node : nodes) { // TODO consider bringing back (no need for `visitedNodesNumber` field)
+        // TODO do with PriorityQueue
         while (this.hasUnvisitedNodes()) {
             Node nextNode = nodes.get(nextNodeIndex);
             System.out.println("Current node:: " + nextNode);

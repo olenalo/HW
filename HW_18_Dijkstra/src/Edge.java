@@ -10,7 +10,7 @@ public class Edge {
         this.length = length;
     }
 
-    public int getNeighborNodeIndex(int nodeIndex) {
+    public int getNeighborNodeIndex(int nodeIndex) { // toggle
         if (this.fromNodeIndex == nodeIndex) {
             return this.toNodeIndex;
         } else {
