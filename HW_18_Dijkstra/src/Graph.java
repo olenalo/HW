@@ -5,6 +5,7 @@ public class Graph {
     private ArrayList<Edge> edges;
     private int nodesNumber;
     private int edgesNumber;
+    private int visitedNodesNumber = 0;
 
     public Graph(ArrayList<Edge> edges) {
         this.edges = edges;
@@ -53,7 +54,8 @@ public class Graph {
         // Ref.: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
         nodes.get(0).setDistanceFromSource(0); // distance to itself
         int nextNodeIndex = 0;
-        for (Node node : nodes) {
+        // for (Node node : nodes) {
+        while (this.hasUnvisitedNodes()) {
             Node nextNode = nodes.get(nextNodeIndex);
             System.out.println("Current node:: " + nextNode);
             ArrayList<Edge> edges = nextNode.getEdges();
@@ -70,6 +72,7 @@ public class Graph {
             }
             // TODO add path as well
             nodes.get(nextNodeIndex).setVisited(true);
+            visitedNodesNumber++;
             nextNodeIndex = getClosestAvailableNodeIndex();
             System.out.println("------------------");
         }
@@ -104,6 +107,10 @@ public class Graph {
                     .append(nodes.get(i).getPathFromSource()); // FIXME get the itinerary as well
         }
         return output;
+    }
+
+    public boolean hasUnvisitedNodes() {
+        return visitedNodesNumber != nodesNumber;
     }
 
     public ArrayList<Node> getNodes() {
