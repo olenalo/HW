@@ -70,6 +70,8 @@ public class Graph {
                     if (cost < neighborNode.getDistanceFromSource()) {
                         neighborNode.setDistanceFromSource(cost);
                         System.out.println("Updated neighbor node: " + neighborNode);
+                        // TODO
+                        // defineItinerary(nextNodeIndex, neighborNode.getDistanceFromSource());
                     }
                 }
             }
@@ -78,12 +80,7 @@ public class Graph {
             nextNodeIndex = getClosestAvailableNodeIndex();
             System.out.println("------------------");
         }
-        // TODO
-        /*
-        for (int i = 1; i < nodes.size(); i++) {
-            defineItinerary(i);
-        }
-        */
+
     }
 
     /**
@@ -105,7 +102,7 @@ public class Graph {
     }
 
     private void populateItinerary(int nodeIndex, List<Integer> itinerary) {
-        // FIXME
+        // FIXME consider taking itinerary with equal distance
         while (nodeIndex != SOURCE_NODE_INDEX) {
             Node node = nodes.get(nodeIndex);
             int minDistance = Integer.MAX_VALUE;
@@ -143,7 +140,7 @@ public class Graph {
                     .append(" is ")
                     .append(nodes.get(i).getDistanceFromSource())
                     .append(". The itinerary is: ")
-                    .append(nodes.get(i).getPathFromSource()); // FIXME get the itinerary as well
+                    .append(nodes.get(i).getPathFromSource());
         }
         return output;
     }
