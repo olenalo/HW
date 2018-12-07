@@ -53,7 +53,7 @@ public class Graph {
         // Ref.: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
         this.nodes.get(0).setDistanceToSource(0); // distance to itself
         int nextNodeIndex = 0;
-        for (int i = 0; i < this.nodesNumber; i++) {
+        for (Node node: this.nodes) {
             ArrayList<Edge> edges = this.nodes.get(nextNodeIndex).getEdges();
             for (Edge edge : edges) {
                 int neighborNodeIndex = edge.getNeighborNodeIndex(nextNodeIndex);
