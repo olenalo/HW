@@ -70,8 +70,6 @@ public class Graph {
                     if (cost < neighborNode.getDistanceFromSource()) {
                         neighborNode.setDistanceFromSource(cost);
                         System.out.println("Updated neighbor node: " + neighborNode);
-                        // TODO
-                        // defineItinerary(nextNodeIndex, neighborNode.getDistanceFromSource());
                     }
                 }
             }
@@ -80,6 +78,13 @@ public class Graph {
             nextNodeIndex = getClosestAvailableNodeIndex();
             System.out.println("------------------");
         }
+
+        // FIXME
+        /*
+        for (int i = 0; i < nodes.size(); i++) {
+            defineItinerary(i);
+        }
+        */
 
     }
 
@@ -101,35 +106,49 @@ public class Graph {
         return nodeIndex;
     }
 
-    private void populateItinerary(int nodeIndex, List<Integer> itinerary) {
-        // FIXME consider taking itinerary with equal distance
-        while (nodeIndex != SOURCE_NODE_INDEX) {
-            Node node = nodes.get(nodeIndex);
-            int minDistance = Integer.MAX_VALUE;
-            for (Edge edge : node.getEdges()) {
-                int neighborNodeIndex = edge.getNeighborNodeIndex(nodeIndex);
-                int distance = nodes.get(neighborNodeIndex).getDistanceFromSource();
-                if (distance < minDistance) {
-                    minDistance = distance;
+    /**
+     * Take itinerary with equal distance.
+     *
+     * @param nodeIndex
+     * @param itinerary
+     */
+    private List<Integer> populateItinerary(int nodeIndex,
+                                            int initialNodeIndex,
+                                            int totalDistance,
+                                            int minDistance,
+                                            List<Integer> itinerary) {
+        // FIXME
+        List<Integer> result = null;
+        if (totalDistance == minDistance) {
+            result = itinerary;
+        } else {
+            if (nodeIndex == SOURCE_NODE_INDEX) {
+                itinerary.clear();
+                totalDistance = 0;
+                populateItinerary(initialNodeIndex, initialNodeIndex, totalDistance, minDistance, itinerary);
+            } else {
+                Node node = nodes.get(nodeIndex);
+                ArrayList<Edge> edges = node.getEdges();
+                for (Edge edge : edges) {
+                    int neighborNodeIndex = edge.getNeighborNodeIndex(nodeIndex);
+                    totalDistance += nodes.get(neighborNodeIndex).getDistanceFromSource();
                     nodeIndex = neighborNodeIndex;
+                    itinerary.add(nodeIndex);
+                    populateItinerary(nodeIndex, initialNodeIndex, totalDistance, minDistance, itinerary);
                 }
             }
-            if (nodeIndex != SOURCE_NODE_INDEX) {
-                itinerary.add(nodeIndex);
-            }
         }
+        return result;
     }
 
     private void defineItinerary(int nodeIndex) {
         if (this.hasUnvisitedNodes()) {
-            throw new IllegalStateException("A graph should first have weights.");
+            throw new IllegalStateException("All graph's nodes should have weights.");
         }
-        List<Integer> itinerary = new ArrayList<>();
-        populateItinerary(nodeIndex, itinerary);
-        Node currentNode = nodes.get(nodeIndex);
-        for (int i : itinerary) {
-            currentNode.addToPathFromSource(i);
-        }
+        ArrayList<Integer> itinerary = new ArrayList<>();
+        int minDistance = nodes.get(nodeIndex).getDistanceFromSource();
+        populateItinerary(nodeIndex, nodeIndex, 0, minDistance, itinerary);
+        nodes.get(nodeIndex).setPathFromSource(itinerary);
     }
 
     public StringBuilder getShortestPathFromSourceDescription() {
