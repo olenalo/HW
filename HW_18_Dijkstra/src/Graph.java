@@ -1,12 +1,16 @@
 import java.util.ArrayList;
+import java.util.List;
+
+import static Configs.Configs.SOURCE_NODE_INDEX;
 
 public class Graph {
-    private ArrayList<Node> nodes = new ArrayList<>();
-    private ArrayList<Edge> edges;
+    private List<Node> nodes = new ArrayList<>();
+    private List<Edge> edges;
     private int nodesNumber;
     private int edgesNumber;
+    private int visitedNodesNumber = 0;
 
-    public Graph(ArrayList<Edge> edges) {
+    public Graph(List<Edge> edges) {
         this.edges = edges;
         this.edgesNumber = edges.size();
         this.nodesNumber = this.getNodesNumber();
@@ -21,23 +25,24 @@ public class Graph {
 
     @Override
     public String toString() {
+        // TODO: analyse the complete graph here (with weights); describe edges in separate method
         StringBuilder repr = new StringBuilder();
-        for (Edge edge: this.edges) {
-            repr
-                .append("It takes ")
-                .append(edge.getLength())
-                .append(" units from the node #")
-                .append(edge.getFromNodeIndex())
-                .append(" to the node #")
-                .append(edge.getToNodeIndex())
-                .append("\n");
+        System.out.println("Number of nodes: " + nodesNumber);
+        for (Edge edge : edges) {
+            repr.append("It takes ")
+                    .append(edge.getLength())
+                    .append(" units from the node #")
+                    .append(edge.getFromNodeIndex())
+                    .append(" to the node #")
+                    .append(edge.getToNodeIndex())
+                    .append("\n");
         }
         return repr.toString();
     }
 
     private int getNodesNumber() {
         int nodesNumber = 0;
-        for (Edge edge: this.edges) {
+        for (Edge edge : edges) {
             if (edge.getFromNodeIndex() > nodesNumber) {
                 nodesNumber = edge.getFromNodeIndex();
             }
@@ -45,42 +50,57 @@ public class Graph {
                 nodesNumber = edge.getToNodeIndex();
             }
         }
-        nodesNumber++;
+        nodesNumber++; // TODO try to get rid of it
         return nodesNumber;
     }
 
-    public void calculateShortestPathsToSourceByDijkstraAlgo() {
+    public void calculateShortestPathsFromSourceByDijkstraAlgo() {
         // Ref.: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-        this.nodes.get(0).setDistanceToSource(0); // distance to itself
-        int nextNodeIndex = 0;
-        for (int i = 0; i < this.nodesNumber; i++) {
-            ArrayList<Edge> edges = this.nodes.get(nextNodeIndex).getEdges();
+        int nextNodeIndex = SOURCE_NODE_INDEX; // TODO rename to current TODO get from edge
+        nodes.get(nextNodeIndex).setDistanceFromSource(0); // distance to self
+        // for (Node node : nodes) { // TODO consider bringing back (no need for `visitedNodesNumber` field)
+        // TODO do with PriorityQueue
+        while (this.hasUnvisitedNodes()) {
+            Node nextNode = nodes.get(nextNodeIndex);
+            System.out.println("Current node:: " + nextNode);
+            ArrayList<Edge> edges = nextNode.getEdges();
             for (Edge edge : edges) {
                 int neighborNodeIndex = edge.getNeighborNodeIndex(nextNodeIndex);
-                if (!this.nodes.get(neighborNodeIndex).isVisited()) {
-                    int cost = this.nodes.get(nextNodeIndex).getDistanceToSource() + edge.getLength();
-                    if (cost < nodes.get(neighborNodeIndex).getDistanceToSource()) {
-                        this.nodes.get(neighborNodeIndex).setDistanceToSource(cost);
+                Node neighborNode = nodes.get(neighborNodeIndex);
+                if (!neighborNode.isVisited()) {
+                    int cost = nextNode.getDistanceFromSource() + edge.getLength();
+                    if (cost < neighborNode.getDistanceFromSource()) {
+                        neighborNode.setDistanceFromSource(cost);
+                        System.out.println("Updated neighbor node: " + neighborNode);
                     }
                 }
             }
-            // TODO add path as well
-            this.nodes.get(nextNodeIndex).setVisited(true);
-            nextNodeIndex = getClosestAvailableNode();
+            nodes.get(nextNodeIndex).setVisited(true);
+            visitedNodesNumber++;
+            nextNodeIndex = getClosestAvailableNodeIndex();
+            System.out.println("------------------");
         }
+
+        // FIXME
+        /*
+        for (int i = 0; i < nodes.size(); i++) {
+            defineItinerary(i);
+        }
+        */
+
     }
 
     /**
-     * Get an unvisited node with the least distance.
+     * Get an unvisited node closest to the source.
      *
      * @return index of the node.
      */
-    private int getClosestAvailableNode() {
+    private int getClosestAvailableNodeIndex() {
         int nodeIndex = 0;
         int distance = Integer.MAX_VALUE;
-        for (int i = 0; i < this.nodesNumber; i++) {
-            int currentDistance = this.nodes.get(i).getDistanceToSource();
-            if (!this.nodes.get(i).isVisited() && currentDistance < distance) {
+        for (int i = 0; i < nodesNumber; i++) {
+            int currentDistance = nodes.get(i).getDistanceFromSource();
+            if (!nodes.get(i).isVisited() && currentDistance < distance) {
                 distance = currentDistance;
                 nodeIndex = i;
             }
@@ -88,20 +108,69 @@ public class Graph {
         return nodeIndex;
     }
 
-    public StringBuilder getShortestPathsToSourceDescription() {
+    /**
+     * Take itinerary with equal distance.
+     *
+     * @param nodeIndex
+     * @param itinerary
+     */
+    private List<Integer> populateItinerary(int nodeIndex,
+                                            int initialNodeIndex,
+                                            int totalDistance,
+                                            int minDistance,
+                                            List<Integer> itinerary) {
+        // FIXME
+        List<Integer> result = null;
+        if (totalDistance == minDistance) {
+            result = itinerary;
+        } else {
+            if (nodeIndex == SOURCE_NODE_INDEX) {
+                itinerary.clear();
+                totalDistance = 0;
+                populateItinerary(initialNodeIndex, initialNodeIndex, totalDistance, minDistance, itinerary);
+            } else {
+                Node node = nodes.get(nodeIndex);
+                ArrayList<Edge> edges = node.getEdges();
+                for (Edge edge : edges) {
+                    int neighborNodeIndex = edge.getNeighborNodeIndex(nodeIndex);
+                    totalDistance += nodes.get(neighborNodeIndex).getDistanceFromSource();
+                    nodeIndex = neighborNodeIndex;
+                    itinerary.add(nodeIndex);
+                    populateItinerary(nodeIndex, initialNodeIndex, totalDistance, minDistance, itinerary);
+                }
+            }
+        }
+        return result;
+    }
+
+    private void defineItinerary(int nodeIndex) {
+        if (this.hasUnvisitedNodes()) {
+            throw new IllegalStateException("All graph's nodes should have weights.");
+        }
+        ArrayList<Integer> itinerary = new ArrayList<>();
+        int minDistance = nodes.get(nodeIndex).getDistanceFromSource();
+        populateItinerary(nodeIndex, nodeIndex, 0, minDistance, itinerary);
+        nodes.get(nodeIndex).setPathFromSource(itinerary);
+    }
+
+    public StringBuilder getShortestPathFromSourceDescription() {
         StringBuilder output = new StringBuilder();
-        for (int i = 0; i < this.nodesNumber; i++) {
+        for (int i = 0; i < nodesNumber; i++) {
             output.append("\nThe shortest distance from the source node #0 to the node #")
                     .append(i)
                     .append(" is ")
-                    .append(nodes.get(i).getDistanceToSource())
+                    .append(nodes.get(i).getDistanceFromSource())
                     .append(". The itinerary is: ")
-                    .append(nodes.get(i).getPathToSource()); // FIXME get the itinerary as well
+                    .append(nodes.get(i).getPathFromSource());
         }
         return output;
     }
 
-    public ArrayList<Node> getNodes() {
+    public boolean hasUnvisitedNodes() {
+        return visitedNodesNumber != nodesNumber;
+    }
+
+    public List<Node> getNodes() {
         return nodes;
     }
 
@@ -109,7 +178,7 @@ public class Graph {
         this.nodes = nodes;
     }
 
-    public ArrayList<Edge> getEdges() {
+    public List<Edge> getEdges() {
         return edges;
     }
 

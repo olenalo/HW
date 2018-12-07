@@ -3,16 +3,16 @@ import java.util.ArrayList;
 public class Node {
 
     private boolean visited;
-    private int distanceToSource;
-    private ArrayList<Integer> pathToSource;
+    private int distanceFromSource;
+
+    private ArrayList<Integer> pathFromSource;
     private ArrayList<Edge> edges;
 
     public Node() {
         this.visited = false;
-        this.distanceToSource = Integer.MAX_VALUE;
+        this.distanceFromSource = Integer.MAX_VALUE;
         this.edges = new ArrayList<>();
-        this.pathToSource = new ArrayList<>();
-        pathToSource.add(0);
+        this.pathFromSource = new ArrayList<>();
     }
 
     public boolean isVisited() {
@@ -23,20 +23,24 @@ public class Node {
         this.visited = visited;
     }
 
-    public int getDistanceToSource() {
-        return distanceToSource;
+    public int getDistanceFromSource() {
+        return distanceFromSource;
     }
 
-    public void setDistanceToSource(int distanceToSource) {
-        this.distanceToSource = distanceToSource;
+    public void setDistanceFromSource(int distanceFromSource) {
+        this.distanceFromSource = distanceFromSource;
     }
 
-    public ArrayList<Integer> getPathToSource() {
-        return pathToSource;
+    public ArrayList<Integer> getPathFromSource() {
+        return pathFromSource;
     }
 
-    public void setPathToSource(ArrayList<Integer> pathToSource) {
-        this.pathToSource = pathToSource;
+    public void setPathFromSource(ArrayList<Integer> pathFromSource) {
+        this.pathFromSource = pathFromSource;
+    }
+
+    public void addToPathFromSource(int nodeIndex) {
+        pathFromSource.add(nodeIndex);
     }
 
     public ArrayList<Edge> getEdges() {
@@ -48,10 +52,20 @@ public class Node {
     }
 
     public void addPathEntry(int i) {
-        this.pathToSource.add(i);
+        this.pathFromSource.add(i);
     }
 
     public void setEdges(ArrayList<Edge> edges) {
         this.edges = edges;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "visited=" + visited +
+                ", distanceFromSource=" + distanceFromSource +
+                // ", pathFromSource=" + pathFromSource +
+                ", edges=" + edges +
+                '}';
     }
 }
