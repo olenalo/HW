@@ -22,6 +22,7 @@ public class Graph {
     @Override
     public String toString() {
         StringBuilder repr = new StringBuilder();
+        System.out.println("Number of nodes: " + nodesNumber);
         for (Edge edge : edges) {
             repr.append("It takes ")
                     .append(edge.getLength())
@@ -54,6 +55,7 @@ public class Graph {
         int nextNodeIndex = 0;
         for (Node node : nodes) {
             Node nextNode = nodes.get(nextNodeIndex);
+            System.out.println("Current node:: " + nextNode);
             ArrayList<Edge> edges = nextNode.getEdges();
             for (Edge edge : edges) {
                 int neighborNodeIndex = edge.getNeighborNodeIndex(nextNodeIndex);
@@ -62,12 +64,14 @@ public class Graph {
                     int cost = nextNode.getDistanceFromSource() + edge.getLength();
                     if (cost < neighborNode.getDistanceFromSource()) {
                         neighborNode.setDistanceFromSource(cost);
+                        System.out.println("Updated neighbor node: " + neighborNode);
                     }
                 }
             }
             // TODO add path as well
             nodes.get(nextNodeIndex).setVisited(true);
             nextNodeIndex = getClosestAvailableNodeIndex();
+            System.out.println("------------------");
         }
     }
 

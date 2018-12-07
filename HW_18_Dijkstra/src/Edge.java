@@ -41,4 +41,13 @@ public class Edge {
     public void setLength(int length) {
         this.length = length;
     }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "fromNodeIndex=" + fromNodeIndex +
+                ", toNodeIndex=" + toNodeIndex +
+                ", length=" + length +
+                '}';
+    }
 }

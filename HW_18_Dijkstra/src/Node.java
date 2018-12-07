@@ -54,4 +54,14 @@ public class Node {
     public void setEdges(ArrayList<Edge> edges) {
         this.edges = edges;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "visited=" + visited +
+                ", distanceFromSource=" + distanceFromSource +
+                // ", pathFromSource=" + pathFromSource +
+                ", edges=" + edges +
+                '}';
+    }
 }
