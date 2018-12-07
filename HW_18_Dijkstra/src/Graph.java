@@ -1,13 +1,16 @@
 import java.util.ArrayList;
+import java.util.List;
+
+import static Configs.Configs.SOURCE_NODE_INDEX;
 
 public class Graph {
-    private ArrayList<Node> nodes = new ArrayList<>();
-    private ArrayList<Edge> edges;
+    private List<Node> nodes = new ArrayList<>();
+    private List<Edge> edges;
     private int nodesNumber;
     private int edgesNumber;
     private int visitedNodesNumber = 0;
 
-    public Graph(ArrayList<Edge> edges) {
+    public Graph(List<Edge> edges) {
         this.edges = edges;
         this.edgesNumber = edges.size();
         this.nodesNumber = this.getNodesNumber();
@@ -52,9 +55,9 @@ public class Graph {
 
     public void calculateShortestPathsFromSourceByDijkstraAlgo() {
         // Ref.: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-        nodes.get(0).setDistanceFromSource(0); // distance to itself
-        int nextNodeIndex = 0;
-        // for (Node node : nodes) {
+        int nextNodeIndex = SOURCE_NODE_INDEX;
+        nodes.get(nextNodeIndex).setDistanceFromSource(0); // distance to itself
+        // for (Node node : nodes) { // TODO consider bringing back (no need for `visitedNodesNumber` field)
         while (this.hasUnvisitedNodes()) {
             Node nextNode = nodes.get(nextNodeIndex);
             System.out.println("Current node:: " + nextNode);
@@ -70,12 +73,17 @@ public class Graph {
                     }
                 }
             }
-            // TODO add path as well
             nodes.get(nextNodeIndex).setVisited(true);
             visitedNodesNumber++;
             nextNodeIndex = getClosestAvailableNodeIndex();
             System.out.println("------------------");
         }
+        // TODO
+        /*
+        for (int i = 1; i < nodes.size(); i++) {
+            defineItinerary(i);
+        }
+        */
     }
 
     /**
@@ -96,6 +104,37 @@ public class Graph {
         return nodeIndex;
     }
 
+    private void populateItinerary(int nodeIndex, List<Integer> itinerary) {
+        // FIXME
+        while (nodeIndex != SOURCE_NODE_INDEX) {
+            Node node = nodes.get(nodeIndex);
+            int minDistance = Integer.MAX_VALUE;
+            for (Edge edge : node.getEdges()) {
+                int neighborNodeIndex = edge.getNeighborNodeIndex(nodeIndex);
+                int distance = nodes.get(neighborNodeIndex).getDistanceFromSource();
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nodeIndex = neighborNodeIndex;
+                }
+            }
+            if (nodeIndex != SOURCE_NODE_INDEX) {
+                itinerary.add(nodeIndex);
+            }
+        }
+    }
+
+    private void defineItinerary(int nodeIndex) {
+        if (this.hasUnvisitedNodes()) {
+            throw new IllegalStateException("A graph should first have weights.");
+        }
+        List<Integer> itinerary = new ArrayList<>();
+        populateItinerary(nodeIndex, itinerary);
+        Node currentNode = nodes.get(nodeIndex);
+        for (int i : itinerary) {
+            currentNode.addToPathFromSource(i);
+        }
+    }
+
     public StringBuilder getShortestPathFromSourceDescription() {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < nodesNumber; i++) {
@@ -113,7 +152,7 @@ public class Graph {
         return visitedNodesNumber != nodesNumber;
     }
 
-    public ArrayList<Node> getNodes() {
+    public List<Node> getNodes() {
         return nodes;
     }
 
@@ -121,7 +160,7 @@ public class Graph {
         this.nodes = nodes;
     }
 
-    public ArrayList<Edge> getEdges() {
+    public List<Edge> getEdges() {
         return edges;
     }
 

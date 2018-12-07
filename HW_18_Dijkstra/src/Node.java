@@ -12,7 +12,7 @@ public class Node {
         this.distanceFromSource = Integer.MAX_VALUE;
         this.edges = new ArrayList<>();
         this.pathFromSource = new ArrayList<>();
-        pathFromSource.add(0);
+        pathFromSource.add(0);  // TODO consider moving to itinerary final population
     }
 
     public boolean isVisited() {
@@ -35,8 +35,8 @@ public class Node {
         return pathFromSource;
     }
 
-    public void setPathFromSource(ArrayList<Integer> pathFromSource) {
-        this.pathFromSource = pathFromSource;
+    public void addToPathFromSource(int nodeIndex) {
+        pathFromSource.add(nodeIndex);
     }
 
     public ArrayList<Edge> getEdges() {
