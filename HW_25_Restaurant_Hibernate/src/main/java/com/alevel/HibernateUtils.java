@@ -8,7 +8,10 @@ public class HibernateUtils {
     private static SessionFactory sessionFactory = null;
 
     static {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
+        Configuration configuration = new Configuration();
+        configuration.addAnnotatedClass(com.alevel.models.Employee.class);
+        // TODO Add more annotated classes (to complete DB)
+        sessionFactory = configuration.configure().buildSessionFactory();
     }
 
     public static SessionFactory getSessionFactory() {

@@ -22,7 +22,7 @@
             123
         </property>
 
-        <mapping class="com.alevel.models.Employee"/>
+        <!--<mapping class="com.alevel.models.Employee"/>-->
 
 
     </session-factory>
