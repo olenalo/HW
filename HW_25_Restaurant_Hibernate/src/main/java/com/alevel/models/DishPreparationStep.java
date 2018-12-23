@@ -8,10 +8,13 @@ public enum DishPreparationStep {
     UTENSIL("Putting the dish to plates, serving other utensil..."),
     DESIGN("Working on the dish design before to serve it to a customer...");
 
-    String description;
+    private String description;
 
     DishPreparationStep(String description) {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
 }

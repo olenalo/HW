@@ -1,4 +1,4 @@
-package com.alevel;
+package com.alevel.utils;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -10,7 +10,8 @@ public class HibernateUtils {
     static {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(com.alevel.models.Employee.class);
-        // TODO Add more annotated classes (to complete DB)
+        configuration.addAnnotatedClass(com.alevel.models.Dish.class);
+        configuration.addAnnotatedClass(com.alevel.models.Order.class);
         sessionFactory = configuration.configure().buildSessionFactory();
     }
 

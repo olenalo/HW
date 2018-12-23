@@ -1,11 +1,18 @@
 package com.alevel.models;
 
+import com.alevel.constants.Menu;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "orders")
 public class Order {
 
     public static final int MAX_DISHES_NUMBER = 5;
+
+    private Long id;
     private List<String[]> dishes;
     private List<Cook> responsibleCooks;
     private List<Waiter> responsibleWaiters;
@@ -16,6 +23,17 @@ public class Order {
         this.responsibleCooks = new ArrayList<>();
         this.responsibleWaiters = new ArrayList<>();
         this.responsibleDishwashers = new ArrayList<>();
+    }
+
+    @Column(name = "id")
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Waiter> getResponsibleWaiters() {
@@ -37,15 +55,16 @@ public class Order {
             this.responsibleDishwashers.add(responsibleDishwasher);
         }
     }
+
     public List<String[]> getDishes() {
         return dishes;
     }
 
     public void addDish(String dishIndex) {
-        for (Menu dish: Menu.values()) {
-            if (dishIndex.equals(dish.dishDescriptors[0]) && this.dishes.size() <= MAX_DISHES_NUMBER){
-                this.dishes.add(new String[]{dish.dishDescriptors[0], dish.dishDescriptors[1], dish.dishDescriptors[2]});
-                System.out.printf("You ordered '%s', thank you!\n", dish.dishDescriptors[1]);
+        for (Menu dish : Menu.values()) {
+            if (dishIndex.equals(dish.getDishDescriptors()[0]) && this.dishes.size() <= MAX_DISHES_NUMBER) {
+                this.dishes.add(new String[]{dish.getDishDescriptors()[0], dish.getDishDescriptors()[1], dish.getDishDescriptors()[2]});
+                System.out.printf("You ordered '%s', thank you!\n", dish.getDishDescriptors()[1]);
             }
         }
     }

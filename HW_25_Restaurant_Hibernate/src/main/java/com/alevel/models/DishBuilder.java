@@ -1,8 +1,11 @@
 package com.alevel.models;
 
+import com.alevel.constants.Menu;
+
 public class DishBuilder {
 
-    public String id;
+    public Long id;
+    public String menuId;
     public String title;
     public String environment;
     public String ingredients;
@@ -10,12 +13,12 @@ public class DishBuilder {
     public String utensil;
     public String design;
 
-    public DishBuilder(String id) {
+    public DishBuilder(Long id) {
         this.id = id;
         this.title = "Dish";
-        for (Menu dish: Menu.values()) {
-            if (id.equals(dish.dishDescriptors[0])){
-                this.title = dish.dishDescriptors[1];
+        for (Menu dish : Menu.values()) {
+            if (id.equals(dish.getDishDescriptors()[0])) {
+                this.title = dish.getDishDescriptors()[1];
             }
         }
     }
@@ -57,6 +60,7 @@ public class DishBuilder {
 
     public Dish createDish() {
         return new Dish(this.id,
+                this.menuId,
                 this.title,
                 this.environment,
                 this.ingredients,

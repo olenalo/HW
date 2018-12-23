@@ -1,22 +1,24 @@
 package com.alevel.models;
 
-public class Soup extends Dish {
+import com.alevel.constants.DishType;
 
-    private final static String type = "Soup";
+public class Soup extends Dish {
 
     @Override
     public String toString() {
-        return type + ", " + this.title;
+        return this.getType() + ", " + this.getTitle();
     }
 
-    public Soup(String id,
+    public Soup(Long id,
+                String menuId,
                 String title,
                 String recipe,
                 String environment,
                 String ingredients,
                 String utensil,
                 String design) {
-        super(id, title, recipe, environment, ingredients, utensil, design);
+        super(id, menuId, title, recipe, environment, ingredients, utensil, design);
+        this.setType(DishType.SOUP);
         System.out.printf("Cooking the %s!\n", this);
     }
 

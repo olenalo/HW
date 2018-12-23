@@ -2,6 +2,6 @@ package com.alevel.models;
 
 public abstract class DishFactory {
 
-    public abstract DishBuilder cook(String id);
+    public abstract DishBuilder cook(Long id);
 
 }
